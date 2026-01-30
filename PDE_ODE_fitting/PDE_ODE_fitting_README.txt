@@ -1,1 +1,1 @@
-
+This contains PDE and ODE codes that are specifically modified for fitting. We created an ODE model that should simulate the plugging dynamics from the PDE model. However, there are several parameters in the ODE model that need fitting.
