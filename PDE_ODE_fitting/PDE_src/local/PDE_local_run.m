@@ -325,7 +325,6 @@ end
 
 %% Find relative mins
 
-
 for i = 1:size(Rsol_all, 2)
     Rsol = Rsol_all{i};
     Rmtrx = -1 .* Rsol + 1.35; 

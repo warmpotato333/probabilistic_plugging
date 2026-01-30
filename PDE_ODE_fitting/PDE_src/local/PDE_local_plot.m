@@ -1,0 +1,44 @@
+% Aya Yu 1/30/2026
+% Plotting the data from HPC or local runs
+
+%% Find relative mins
+Rmin_all = cell(size(Rsol_all));
+for col = 1:1size(Rsol_all, 2)
+    a = a_values(col);
+
+    for row = 1:size(Rsol_all, 1)
+        Rsol = Rsol_all{row, col};
+        Rmat = -1 .* Rsol + a;
+
+        for matrow = 1:size(Rmat, 1)
+            Rmin = NaN(1, size(Rmat, 1));
+
+            for matcol = 2:size(Rmat, 2)-1
+                if Rmat(matrow, matcol) < Rmat(matrow, matcol - 1) && Rmat(matrow, matcol) < Rmat(matrow, matcol + 1);
+                    Rmin(end+1, matrow) = Rmat(row, col);
+                end
+            end
+            Rmin_all{col, row} = Rmin;
+        end
+
+    end
+
+end
+
+%%
+
+for i = 1:size(Rsol_all, 2)
+    Rsol = Rsol_all{i};
+    Rmtrx = -1 .* Rsol + 1.35; 
+    figure;
+    hold on;
+    for row = 1:size(Rmtrx, 1)
+        for col = 2:size(Rmtrx, 2)-1
+            if Rmtrx(row, col) < Rmtrx(row, col - 1) && Rmtrx(row, col) < Rmtrx(row, col + 1)
+                scatter(row, Rmtrx(row, col), '.');
+            end
+        end
+    
+    end
+    hold off;
+end
