@@ -37,60 +37,35 @@ for col = 1:size(Rsol_all, 2)
                 end
             end         
         end
-
         % Store the Rmin matrix into the Rmin_all cell array
         Rmin_all{row, col} = Rmin;
     end
 end
 
 
-%%
-Rmin = Rmin_all{1, 1};
-
-Rtime = 1:size(Rmin, 1);
-Rtime = repmat(Rtime.', 1, size(Rmin, 2));
-
-color = randn(numel(Rmin(:)), 3);
-scatter(Rtime(:), Rmin(:), 5, 'magenta', 'filled');
 
 %% Plot time serieses of wave crests
 
 for col = 1:size(Rmin_all, 2)
-
+    % Get a values
     a = a_values;
 
     for row = 1:size(Rmin_all, 1)
         figure;
-        Rmin = Rmin_all{row, col};
+        Rmin = Rmin_all{row, col};                  % Extract Rmin from Rmin_all
+        Rtime = 1:size(Rmin, 1);                    % Make time stamps, rn it's just counting from 1, can be changed later
+        Rtime = repmat(Rtime.', 1, size(Rmin, 2));  % Repeat the time stamp many times so it can be used to plot in scatter
         
-        Rtime = 1:size(Rmin, 1);
-        Rtime = repmat(Rtime.', 1, size(Rmin, 2));
-        
-        %color = randn(numel(Rmin(:)), 3);
-        scatter(Rtime(:), Rmin(:), 5, 'magenta', 'filled');
-
-    end
-end
-
-
-
-
-
-
-%%
-
-for i = 1:size(Rsol_all, 2)
-    Rsol = Rsol_all{1};
-    Rmtrx = -1 .* Rsol + 1.35; 
-    figure;
-    hold on;
-    for row = 1:size(Rmtrx, 1)
-        for col = 2:size(Rmtrx, 2)-1
-            if Rmtrx(row, col) < Rmtrx(row, col - 1) && Rmtrx(row, col) < Rmtrx(row, col + 1)
-                scatter(row, Rmtrx(row, col), '.');
-            end
-        end
+        color = randn(numel(Rmin(:)), 3);          % Random color for each point, *optional*
     
+        scatter(Rtime(:), Rmin(:), 5, color, 'filled');
+
     end
-    hold off;
 end
+
+
+
+
+
+
+
