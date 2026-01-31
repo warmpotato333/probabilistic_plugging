@@ -1,34 +1,85 @@
 % Aya Yu 1/30/2026
 % Plotting the data from HPC or local runs
 
-%% Find relative mins
+%% Find relative mins - the wave crests
+
+% Create a cell to store all the minimums of R
 Rmin_all = cell(size(Rsol_all));
-for col = 1:1size(Rsol_all, 2)
+
+% For loop that start iterate with columns Rsol_all, each column
+% coursebounds to a different 'a' value
+for col = 1:size(Rsol_all, 2)
+    
+    % Get the a value of that column
     a = a_values(col);
-
+    
+    % Now iterate through the rows of Rsol_all, each row is a different run
+    % with different initial condition but the same 'a' value
     for row = 1:size(Rsol_all, 1)
-        Rsol = Rsol_all{row, col};
-        Rmat = -1 .* Rsol + a;
 
+        % Init several storage variables
+        Rsol = Rsol_all{row, col};                      % Extract one Rsol from Rsol_all                     
+        Rmat = -1 .* Rsol + a;                          % Turn Rsol into Rmat, which now has bigger R being smaller wave, and smaller R being larger wave
+        Rmin = NaN(size(Rmat, 1), size(Rmat, 2));       % Rmin stores the local minima of Rmat, this is to find all the wave crests
+        
+        % Now iterate each row of Rmat. Each row here represents a
+        % snapshot of the fluid at a different time step
         for matrow = 1:size(Rmat, 1)
-            Rmin = NaN(1, size(Rmat, 1));
-
+            
+            % Iterate each column within that row. Each column here
+            % represents the fluid at different z location
             for matcol = 2:size(Rmat, 2)-1
-                if Rmat(matrow, matcol) < Rmat(matrow, matcol - 1) && Rmat(matrow, matcol) < Rmat(matrow, matcol + 1);
-                    Rmin(end+1, matrow) = Rmat(row, col);
+
+                % If a point of the fluid is less than its two closests
+                % neighbors, save it as a local minimum.
+                if Rmat(matrow, matcol) < Rmat(matrow, matcol - 1) && Rmat(matrow, matcol) < Rmat(matrow, matcol + 1)
+                    Rmin(matrow, matcol) = Rmat(matrow, matcol);
                 end
-            end
-            Rmin_all{col, row} = Rmin;
+            end         
         end
+        % Store the Rmin matrix into the Rmin_all cell array
+        Rmin_all{row, col} = Rmin;
+    end
+end
+
+
+%%
+Rmin = Rmin_all{2, 1};
+
+Rtime = 1:size(Rmin, 1);
+Rtime = repmat(Rtime.', 1, size(Rmin, 2));
+
+color = randn(numel(Rmin(:)), 3);
+scatter(Rtime(:), Rmin(:), 5, color, 'filled');
+
+%% Plot time serieses of wave crests
+
+for col = 1:size(Rmin_all, 2)
+
+    a = a_values;
+
+    for row = 1:size(Rmin_all, 1)
+        figure;
+        Rmin = Rmin_all{row, col};
+        
+        Rtime = 1:size(Rmin, 1);
+        Rtime = repmat(Rtime.', 1, size(Rmin, 2));
+        
+        %color = randn(numel(Rmin(:)), 3);
+        scatter(Rtime(:), Rmin(:), 5, 'magenta', 'filled');
 
     end
-
 end
+
+
+
+
+
 
 %%
 
 for i = 1:size(Rsol_all, 2)
-    Rsol = Rsol_all{i};
+    Rsol = Rsol_all{1};
     Rmtrx = -1 .* Rsol + 1.35; 
     figure;
     hold on;

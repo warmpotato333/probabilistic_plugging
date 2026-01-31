@@ -330,13 +330,13 @@ save(fnamedotmat, 'numplugs','timeToPlug','a_values','atests','numtests','la','B
 %% Tips for processing and graphing
 
 % 1. The Rsol_all stores Rsol from all the runs, each column is trejectories from a
-% different a value, and each row is a different trejectory under that same
-% a value, but different initial condition
+% different 'a' value, and each row is a different trejectory under that same
+% 'a' value, but different initial condition
 
 % 2. the a_values is a column vector contains all the a_values that was tested. It is indexed
-% the exact same way as the Rsol_all. 
+% the exact same way as the Rsol_all. Ex: Column 3 of Rsol_all all have the
+% same 'a' value as a_values(3).
 
-% 3. atests is for the simulation only, and aggregated version of a_value depending on numtest. 
-% It is just so the parfor loop can know which a value to use. 
-% I can't think of why it would be useful for analysis, but we're saving it
-% just in case. 
+% 3. atests is for the simulation only, an aggregated version of a_value depending on numtest. 
+% It is just so the parfor loop can know which 'a' value to use. 
+% It's probably for analysis, but we're saving it just in case. 
