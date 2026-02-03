@@ -8,7 +8,7 @@ Rmin_all = cell(size(Rsol_all));
 
 % For loop that start iterate with columns Rsol_all, each column
 % coursebounds to a different 'a' value
-for col = 1:size(Rsol_all, 2)
+for col = 5:5%size(Rsol_all, 2)
     
     % Get the a value of that column
     a = a_values(col);
@@ -42,6 +42,8 @@ for col = 1:size(Rsol_all, 2)
     end
 end
 
+% Remove all empty cells (If you only want to look at a portion of the data)
+Rmin_all = Rmin_all(~cellfun('isempty', Rmin_all));
 
 
 %% Plot time serieses of wave crests
@@ -64,6 +66,31 @@ for col = 1:size(Rmin_all, 2)
 end
 
 
+%%
+n = numel(Rsol_all);
+pairs = [];
+
+for i = 1:n-1
+    for j = i+1:n
+        if isequal(Rsol_all{i}, Rsol_all{j})
+            pairs(end+1,:) = ind2sub(size(Rsol_all), [i j]);
+        end
+    end
+end
+
+
+%%
+n = numel(Rsol_all);
+pairs = [];
+
+for i = 1:n-1
+    for j = i+1:n
+        if isequal(Rsol_all{i}, Rsol_all{j})
+            [r, c] = ind2sub(size(Rsol_all), [i j]);
+            pairs(end+1,:) = [r(1) c(1) r(2) c(2)];
+        end
+    end
+end
 
 
 

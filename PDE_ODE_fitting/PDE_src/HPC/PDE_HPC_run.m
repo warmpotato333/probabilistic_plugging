@@ -9,7 +9,7 @@ clear ProgressUpdate;
 % parpool("Processes");
 
 
-numtests=2;                                           % Number of times to run a simulation
+numtests=10;                                           % Number of times to run a simulation
 atests_min = 1.35;                                      %smallest a value to test
 atests_max = 1.36;                                      %largest a value to test
 atests_inc = 0.01;                                    %Increment of a value
@@ -63,7 +63,7 @@ parfor ww=1:length(atests)
 
     % Set initial temporal resolution 
     t0 = 0;                                  % Don't change - Start time
-    tend=25000; %250*round(1/(a-1)^3);       % End time
+    tend=10; %250*round(1/(a-1)^3);       % End time
     tnumpersec1=ceil(8000*(a-1)^3);          % Number of time steps per time unit (initially)
     tnum = round(tnumpersec1*(tend-t0));     % Don't change - Number of time intervals
     dt = (tend-t0)/tnum;                     % Don't change - Time-step

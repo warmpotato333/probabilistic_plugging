@@ -8,7 +8,7 @@ Rmin_all = cell(size(Rsol_all));
 
 % For loop that start iterate with columns Rsol_all, each column
 % coursebounds to a different 'a' value
-for col = 1:size(Rsol_all, 2)
+for col = 1:1%size(Rsol_all, 2)
     
     % Get the a value of that column
     a = a_values(col);
@@ -42,6 +42,8 @@ for col = 1:size(Rsol_all, 2)
     end
 end
 
+% Remove all empty cells (If you only want to look at a portion of the data)
+Rmin_all = Rmin_all(~cellfun('isempty', Rmin_all));
 
 
 %% Plot time serieses of wave crests
@@ -64,6 +66,24 @@ for col = 1:size(Rmin_all, 2)
 end
 
 
+
+
+
+%% **For debug, find all the duplicate pairs in Rsol_all**
+n = numel(Rsol_all);
+pairs = [];
+
+for i = 1:n-1
+    for j = i+1:n
+        firstRow_i = Rsol_all{i}(1, :);
+        firstRow_j = Rsol_all{j}(1, :);
+
+        if isequal(firstRow_i, firstRow_j);
+            [r, c] = ind2sub(size(Rsol_all), [i j]);
+            pairs(end+1,:) = [r(1) c(1) r(2) c(2)];
+        end
+    end
+end
 
 
 
