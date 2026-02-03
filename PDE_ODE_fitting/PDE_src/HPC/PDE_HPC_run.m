@@ -9,10 +9,7 @@ clear ProgressUpdate;
 % parpool("Processes");
 
 
-numtests=10;                                           % Number of times to run a simulation
-atests_min = 1.35;                                      %smallest a value to test
-atests_max = 1.36;                                      %largest a value to test
-atests_inc = 0.01;                                    %Increment of a value
+                                   %Increment of a value
 a_values = atests_min:atests_inc:atests_max;            %create an array of all the a values that will be tested
 atests = repelem(a_values, numtests);                   %repeat the a value by numtests times, so this new array could be used by parfor
 plugged = zeros(1, length(atests));                     %create an array of zeros the same size as atests, when there is a plug, the coursebounding position will be turned to 1, in the end, they are summed up to see how many of each a values are plugged
@@ -324,7 +321,7 @@ fnamedotmat= fullfile(saveFolder, [fname,'.mat']);
 %choose what variables to save
 save(fnamedotmat, 'numplugs','timeToPlug','a_values','atests','numtests','la','Bo', ...
     'Rsol_all', 'num_plots',"atests_inc", "atests_max", ...
-    'atests_min', 'Ltilde');   
+    'atests_min', 'Ltilde', '-v7.3');   
 
 
 %% Tips for processing and graphing

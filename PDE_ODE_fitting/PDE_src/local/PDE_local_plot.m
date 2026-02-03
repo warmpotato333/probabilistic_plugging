@@ -78,7 +78,7 @@ for i = 1:n-1
         firstRow_i = Rsol_all{i}(1, :);
         firstRow_j = Rsol_all{j}(1, :);
 
-        if isequal(firstRow_i, firstRow_j);
+        if isequal(firstRow_i, firstRow_j);   
             [r, c] = ind2sub(size(Rsol_all), [i j]);
             pairs(end+1,:) = [r(1) c(1) r(2) c(2)];
         end
