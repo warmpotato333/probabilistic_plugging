@@ -10,6 +10,8 @@ Rmin_all = cell(size(Rsol_all));
 % coursebounds to a different 'a' value
 for col = 1:size(Rsol_all, 2)
     
+    % get tas hhs 
+
     % Get the a value of that column
     a = a_values(col);
     
