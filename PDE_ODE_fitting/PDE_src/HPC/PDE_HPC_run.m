@@ -8,8 +8,10 @@ clear ProgressUpdate;
 % node = getenv('HOSTNAME');
 % parpool("Processes");
 
-
-                                   %Increment of a value
+numtests=10;                                           % Number of times to run a simulation
+atests_min = 1.35;                                      %smallest a value to test
+atests_max = 1.36;                                      %largest a value to test
+atests_inc = 0.005;                                    %Increment of a value
 a_values = atests_min:atests_inc:atests_max;            %create an array of all the a values that will be tested
 atests = repelem(a_values, numtests);                   %repeat the a value by numtests times, so this new array could be used by parfor
 plugged = zeros(1, length(atests));                     %create an array of zeros the same size as atests, when there is a plug, the coursebounding position will be turned to 1, in the end, they are summed up to see how many of each a values are plugged
@@ -28,10 +30,19 @@ Bo=1;
 numptsper2pi = 32;          % Set spatial resolution - number of z gridpoints per 2pi
 Ltilde=0;                   %Slip Length for Slip BC Model this is Lambda tilde
 
+% Generate a random seed for the randomStream that would be used in parfor
+rng("shuffle");
+randSeed = randi(1e9); % randSeed saved for debug
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 parfor ww=1:length(atests)
-    rng("shuffle");  %shuffle the randomnizer
+
+    % generate the random stream, and assign a substream for this worker
+    % this should prevent any possilble duplication
+    randomStream = RandStream("mrg32k3a", "Seed", randSeed);
+    randomStream.Substream = ww; 
+
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     a=atests(ww);   % Film thickness ratio (tube radius to core radius) - must be real number greater than 1
    
@@ -321,7 +332,7 @@ fnamedotmat= fullfile(saveFolder, [fname,'.mat']);
 %choose what variables to save
 save(fnamedotmat, 'numplugs','timeToPlug','a_values','atests','numtests','la','Bo', ...
     'Rsol_all', 'num_plots',"atests_inc", "atests_max", ...
-    'atests_min', 'Ltilde', '-v7.3');   
+    'atests_min', 'Ltilde', 'randSeed', '-v7.3');   
 
 
 %% Tips for processing and graphing

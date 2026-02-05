@@ -38,7 +38,7 @@ function Rj_1 = f(xj_0, fparams) %Rj_0 is an array of 2 initial conditions, it c
     % RHS of ODE, calculate the result at next time step
 
     %%%%test%%%%
-    A = sqrt(1 - ((1- Rj)^2)/0.25); %sqrt(1 - ((1- Rj)^2)/0.5); 
+    A = sqrt(1 - ((1- Rj)^2)/0.25); %sqrt(1 - ((1- Rj)^2)/0.5); % This was changed to create more varience in speed betweeen large and small wave
     Rj_1(1,1) = -(1/2) * (1 - (a^2)/A^2 + 2*log(a/A) );
     %Rj_1(1,1) = -(1/2) * (1 - (a^2)/Rj^2 + 2*log(a/Rj) );
     Rj_1(1,2) = ((Rj - 1) * (Rj - Rb) * (Rj - Rc) * omega) - ((Rj -1)*total);  

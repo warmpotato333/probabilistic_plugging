@@ -8,7 +8,7 @@ Rmin_all = cell(size(Rsol_all));
 
 % For loop that start iterate with columns Rsol_all, each column
 % coursebounds to a different 'a' value
-for col = 1:1%size(Rsol_all, 2)
+for col = 1:size(Rsol_all, 2)
     
     % Get the a value of that column
     a = a_values(col);
