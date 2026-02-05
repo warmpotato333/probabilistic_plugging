@@ -1,2 +1,3 @@
 **/HPC_test_Data/
-**/.DS_Store
+*.DS_Store
+*.asv
