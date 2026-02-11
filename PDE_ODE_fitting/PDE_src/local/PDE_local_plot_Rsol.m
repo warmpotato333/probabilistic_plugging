@@ -68,24 +68,16 @@ for col = 1:size(Rmin_all, 2)
 end
 
 
+%% Finding the varience and the mean of the Rmin
 
+Rmin = Rmin_all{1};
 
-
-%% **For debug, find all the duplicate pairs in Rsol_all**
-n = numel(Rsol_all);
-pairs = [];
-
-for i = 1:n-1
-    for j = i+1:n
-        firstRow_i = Rsol_all{i}(1, :);
-        firstRow_j = Rsol_all{j}(1, :);
-
-        if isequal(firstRow_i, firstRow_j);   
-            [r, c] = ind2sub(size(Rsol_all), [i j]);
-            pairs(end+1,:) = [r(1) c(1) r(2) c(2)];
-        end
-    end
-end
+% Find mean
+avg = mean(Rmin, 2, 'omitnan');
+% Find population vairence
+varience = var(Rmin, 1, 2, 'omitnan');
+% Find standard deviation
+stdDev = std(Rmin, 1, 2, 'omitnan')
 
 
 

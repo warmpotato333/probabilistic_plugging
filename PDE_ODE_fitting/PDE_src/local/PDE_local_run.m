@@ -265,7 +265,7 @@ Bo=1;                                    % Bond number
 la= 12;                                    % Enter a positive integer to set domain size
 
 % Simulation Parameters
-tend = 2200; %50*round(1/(a-1)^3);       % End time
+tend = 10; %50*round(1/(a-1)^3);       % End time
 num_plots =400;                          % Number of solution snapshots to save 
 
 %% Construct initial condition - R=1+some small perturbations
@@ -323,50 +323,22 @@ for i = 2:1:length(Rmin)
     Rspeed(i-1) = dtrue/time_inc;
 end
 
-%% Find relative mins
+% %% Save solution
+% dataFolderName = 'Flow_fit_Data';
+% timestamp = datestr(now,'yyyy-mm-dd_HH-MM-SS');
+% fname = ['PDE_fit_test' timestamp];
+% % Find the data folder that the data is to be saved in
+% scriptFolder = pwd;        %get the full path that the script is in
+% parentFolder = fileparts(scriptFolder);                 %go up one folder to find the location of the parentfolder
+% saveFolder = fullfile(parentFolder, dataFolderName);    %set the save folder to be the data folder
+% if ~exist(saveFolder, 'dir')                            %make a data folder if there is not already one
+%     mkdir(saveFolder);
+% end
+% 
+% fnamedotmat= fullfile(saveFolder, [fname,'.mat']);                     
+% save(fnamedotmat,'la','Bo', 'a', 'Rsol', 'Rmin_ind', 'tvec', 'time_snaps');    %choose what variables to save
+% 
 
-for i = 1:size(Rsol_all, 2)
-    Rsol = Rsol_all{i};
-    Rmtrx = -1 .* Rsol + 1.35; 
-    figure;
-    hold on;
-    for row = 1:size(Rmtrx, 1)
-        for col = 2:size(Rmtrx, 2)-1
-            if Rmtrx(row, col) < Rmtrx(row, col - 1) && Rmtrx(row, col) < Rmtrx(row, col + 1)
-                scatter(row, Rmtrx(row, col), '.');
-            end
-        end
-    
-    end
-    hold off;
-end
-
-%% Save solution
-dataFolderName = 'Flow_fit_Data';
-timestamp = datestr(now,'yyyy-mm-dd_HH-MM-SS');
-fname = ['PDE_fit_test' timestamp];
-% Find the data folder that the data is to be saved in
-scriptFolder = pwd;        %get the full path that the script is in
-parentFolder = fileparts(scriptFolder);                 %go up one folder to find the location of the parentfolder
-saveFolder = fullfile(parentFolder, dataFolderName);    %set the save folder to be the data folder
-if ~exist(saveFolder, 'dir')                            %make a data folder if there is not already one
-    mkdir(saveFolder);
-end
-
-fnamedotmat= fullfile(saveFolder, [fname,'.mat']);                     
-save(fnamedotmat,'la','Bo', 'a', 'Rsol', 'Rmin_ind', 'tvec', 'time_snaps');    %choose what variables to save
-
-
-%% Plot the crest height
-figure;
-plot(time_snaps(1:end-1), Rmin(1:end-1) );
-
-%% Plot Crest Speed vs Height
-
-figure;
-plot(Rmin(1:end-1), Rspeed(1:end));
-xlabel('R_{min}');
-ylabel('Wave Horizontal Speed');
 
 %% Plot average crest height from multi-r
 % figure;
