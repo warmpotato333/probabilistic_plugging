@@ -45,7 +45,7 @@ for col = 1:size(Rsol_all, 2)
 end
 
 % Remove all empty cells (If you only want to look at a portion of the data)
-Rmin_all = Rmin_all(~cellfun('isempty', Rmin_all));
+%Rmin_all = Rmin_all(~cellfun('isempty', Rmin_all));
 
 
 %% Plot time serieses of wave crests
@@ -63,6 +63,7 @@ for col = 1:size(Rmin_all, 2)
         color = randn(numel(Rmin(:)), 3);          % Random color for each point, *optional*
     
         scatter(Rtime(:), Rmin(:), 5, color, 'filled');
+        ylim([0.75, 1])
 
     end
 end
@@ -77,7 +78,16 @@ avg = mean(Rmin, 2, 'omitnan');
 % Find population vairence
 varience = var(Rmin, 1, 2, 'omitnan');
 % Find standard deviation
-stdDev = std(Rmin, 1, 2, 'omitnan')
+stdDev = std(Rmin, 1, 2, 'omitnan');
+
+% Plot mean, standard deviation over time
+figure;
+hold on
+plot(avg);
+plot(avg + varience);
+plot(avg - varience);
+hold off
+
 
 
 
