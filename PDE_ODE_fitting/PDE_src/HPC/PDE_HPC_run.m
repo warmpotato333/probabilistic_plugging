@@ -8,10 +8,10 @@ clear ProgressUpdate;
 % node = getenv('HOSTNAME');
 % parpool("Processes");
 
-numtests=10;                                           % Number of times to run a simulation
-atests_min = 1.35;                                      %smallest a value to test
-atests_max = 1.36;                                      %largest a value to test
-atests_inc = 0.005;                                    %Increment of a value
+numtests=4;                                           % Number of times to run a simulation
+atests_min = 1.33;                                      %smallest a value to test
+atests_max = 1.35;                                      %largest a value to test
+atests_inc = 0.01;                                    %Increment of a value
 a_values = atests_min:atests_inc:atests_max;            %create an array of all the a values that will be tested
 atests = repelem(a_values, numtests);                   %repeat the a value by numtests times, so this new array could be used by parfor
 plugged = zeros(1, length(atests));                     %create an array of zeros the same size as atests, when there is a plug, the coursebounding position will be turned to 1, in the end, they are summed up to see how many of each a values are plugged
@@ -71,7 +71,7 @@ parfor ww=1:length(atests)
 
     % Set initial temporal resolution 
     t0 = 0;                                  % Don't change - Start time
-    tend=10; %250*round(1/(a-1)^3);       % End time
+    tend=5000; %250*round(1/(a-1)^3);       % End time
     tnumpersec1=ceil(8000*(a-1)^3);          % Number of time steps per time unit (initially)
     tnum = round(tnumpersec1*(tend-t0));     % Don't change - Number of time intervals
     dt = (tend-t0)/tnum;                     % Don't change - Time-step
@@ -318,7 +318,7 @@ save_time = datestr(now,'yyyymmdd_HHMMSS');
 % set data folder name, and save file name
 % !!!Remember to change the names accordance to mission number!!!
 dataFolderName = 'HPC_test_Data';
-fname = sprintf('HPCTest_la12_RsolCollect_%s.mat', save_time);
+fname = sprintf('HPCTest_la12_longTendPlugged111_%s.mat', save_time);
 
 % Find the data folder that the data is to be saved in
 scriptFolder = pwd;                                     %get the full path that the script is in

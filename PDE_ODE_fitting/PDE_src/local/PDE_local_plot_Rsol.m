@@ -63,7 +63,7 @@ for col = 1:size(Rmin_all, 2)
         color = randn(numel(Rmin(:)), 3);          % Random color for each point, *optional*
     
         scatter(Rtime(:), Rmin(:), 5, color, 'filled');
-        ylim([0.75, 1])
+        %ylim([0.75, 1])
 
     end
 end
@@ -71,15 +71,49 @@ end
 
 %% Finding the varience and the mean of the Rmin
 
-Rmin = Rmin_all{1};
+% Initiate a cell to store all the statistics
+Rstat_all = cell(size(Rmin_all));
 
-% Find mean
-avg = mean(Rmin, 2, 'omitnan');
-% Find population vairence
-varience = var(Rmin, 1, 2, 'omitnan');
-% Find standard deviation
-stdDev = std(Rmin, 1, 2, 'omitnan');
+% Iterate through the plugged set of data
+for i = 1:numel(Rmin_all)
+    % Set Rmin to current cell of Rmin_all
+    Rmin = Rmin_all{i};
+    % Find mean
+    avg = mean(Rmin, 2, 'omitnan');
+    % Find population vairence
+    varience = var(Rmin, 1, 2, 'omitnan');
+    % Find standard deviation
+    stdDev = std(Rmin, 1, 2, 'omitnan');
+    % Store statistic into cell array
+    Rstat_all{i} = [avg varience stdDev]; % the order by column is mean, varience, standard deviation
+end
 
+% ## Seperate out plugged and unplugged stats ##
+
+% Find indeces with plugged data
+plugged_idx = find(plugged == 1);
+% Find indeces with no plug data
+unplugged_idx = find(plugged == 0);
+
+% Initiate two cell arrays to store all the statistics (mean, std_dev,
+% varience)
+Rstat_plugged = cell(size(Rstat_all));
+Rstat_unplugged = cell(size(Rstat_all));
+
+% Iterate through plugged stats
+for i = plugged_idx
+    Rstat_plugged{i} = Rstat_all{i};
+end
+% Iterate through unplugged stats
+for i = unplugged_idx
+    Rstat_unplugged{i} = Rstat_all{i};
+end
+
+
+
+
+
+%%
 % Plot mean, standard deviation over time
 figure;
 hold on
