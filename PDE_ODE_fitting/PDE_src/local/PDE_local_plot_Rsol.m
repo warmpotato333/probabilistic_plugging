@@ -74,7 +74,7 @@ end
 % Initiate a cell to store all the statistics
 Rstat_all = cell(size(Rmin_all));
 
-% Iterate through the plugged set of data
+% Iterate through the Rmin_all for Rstat_all
 for i = 1:numel(Rmin_all)
     % Set Rmin to current cell of Rmin_all
     Rmin = Rmin_all{i};
