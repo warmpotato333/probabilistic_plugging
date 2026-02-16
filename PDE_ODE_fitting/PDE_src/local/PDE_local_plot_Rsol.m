@@ -45,7 +45,7 @@ for col = 1:size(Rsol_all, 2)
 end
 
 % Remove all empty cells (If you only want to look at a portion of the data)
-%Rmin_all = Rmin_all(~cellfun('isempty', Rmin_all));
+%Rmin_all = Rmin_all(~cellfun('isempty', Rmin_all 3));
 
 
 %% Plot time serieses of wave crests
@@ -60,7 +60,7 @@ for col = 1:size(Rmin_all, 2)
         Rtime = 1:size(Rmin, 1);                    % Make time stamps, rn it's just counting from 1, can be changed later
         Rtime = repmat(Rtime.', 1, size(Rmin, 2));  % Repeat the time stamp many times so it can be used to plot in scatter
         
-        color = randn(numel(Rmin(:)), 3);          % Random color for each point, *optional*
+        color = randn(numel(Rmin(:)), 3);           % Random color for each point, *optional*
     
         scatter(Rtime(:), Rmin(:), 5, color, 'filled');
         %ylim([0.75, 1])
@@ -70,7 +70,7 @@ end
 
 
 %% Finding the varience and the mean of the Rmin
-
+ 
 % Initiate a cell to store all the statistics
 Rstat_all = cell(size(Rmin_all));
 
@@ -109,18 +109,44 @@ for i = unplugged_idx
     Rstat_unplugged{i} = Rstat_all{i};
 end
 
+%% Plot the main, standard deviation for plugged data
+for i = 1:numel(Rstat_plugged)
+    Rstat = Rstat_plugged{i}
+    % If the cell is not empty, plot it.
+    if ~isempty(Rstat) 
+        avg = Rstat(:, 1);
+        stdDev = Rstat(:,2);
+        varience = Rstat(:, 3);
+        
+        % plot it
+        figure;
+        hold on;
+        plot(avg);
+        plot(avg+stdDev);
+        plot(avg-stdDev);
+        hold off;
+    end
+end
 
+%% Plot the main, standard deviation for unplugged data
+for i = 1:numel(Rstat_unplugged)
+    Rstat = Rstat_unplugged{i}
+    % If the cell is not empty, plot it.
+    if ~isempty(Rstat) 
+        avg = Rstat(:, 1);
+        stdDev = Rstat(:,2);
+        varience = Rstat(:, 3);
+        
+        % plot it
+        figure;
+        hold on;
+        plot(avg);
+        plot(avg+stdDev);
+        plot(avg-stdDev);
+        hold off;
+    end
+end
 
-
-
-%%
-% Plot mean, standard deviation over time
-figure;
-hold on
-plot(avg);
-plot(avg + varience);
-plot(avg - varience);
-hold off
 
 
 
