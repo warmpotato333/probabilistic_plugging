@@ -13,11 +13,11 @@ for i = 1:numel(ODRsol_all)
     % Set Rmin to current cell of Rmin_all
     ODRsol = ODRsol_all{i};
     % Find mean
-    avg = mean(ODRsol, 2, 'omitnan');
+    avg = mean(ODRsol(:, 2, :), 3, 'omitnan');
     % Find population vairence
-    varience = var(ODRsol, 1, 2, 'omitnan');
+    varience = var(ODRsol(:, 2, :), 1, 3, 'omitnan');
     % Find standard deviation
-    stdDev = std(ODRsol, 1, 2, 'omitnan');
+    stdDev = std(ODRsol(:, 2, :), 1, 3, 'omitnan');
     % Store statistic into cell array
     ODRstat_all{i} = [avg varience stdDev]; % the order by column is mean, varience, standard deviation
 end
@@ -69,7 +69,7 @@ for i = 1:length(ODRsol_all)
     end
 end
 
-% Plot unplugged time series
+%% Plot unplugged time series
 
 for i = 1:length(ODRsol_all)
     ODRsol = ODRsol_all{i};
@@ -92,6 +92,45 @@ for i = 1:length(ODRsol_all)
     end
 end
 
+
+%% Plot the main, standard deviation for plugged data
+for i = 1:numel(ODRstat_plugged)
+    ODRstat = ODRstat_plugged{i};
+    % If the cell is not empty, plot it.
+    if ~isempty(ODRstat) 
+        avg = ODRstat(:, 1);
+        varience = ODRstat(:, 2);
+        stdDev = ODRstat(:,3);
+           
+        % plot it
+        figure;
+        hold on;
+        plot(avg);
+        plot(avg+stdDev);
+        plot(avg-stdDev);
+        hold off;
+    end
+end
+
+%% Plot the main, standard deviation for unplugged data
+for i = 1:numel(ODRstat_unplugged)
+    ODRstat = ODRstat_unplugged{i};
+    % If the cell is not empty, plot it.
+    if ~isempty(ODRstat) 
+        avg = ODRstat(:, 1);
+        varience = ODRstat(:, 2);
+        stdDev = ODRstat(:,3);
+        
+        
+        % plot it
+        figure;
+        hold on;
+        plot(avg);
+        plot(avg+stdDev);
+        plot(avg-stdDev);
+        hold off;
+    end
+end
 
 %% Plot the distribution of the distance function
 % figure;
