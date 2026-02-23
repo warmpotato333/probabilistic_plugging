@@ -14,9 +14,9 @@ function Rj_1 = f(xj_0, fparams) %Rj_0 is an array of 2 initial conditions, it c
     p = fparams{4};
     lambda1 = fparams{5};
     lambda2 = fparams{6};
-    Xi = fparams{7};            %xi is a matrix of all other state variables in the form of [xi, Rj; ...]
+    Xi = fparams{7};            % xi is a matrix of all other state variables in the form of [xi, Rj; ...]
     dist_func = fparams{8};
-    L = fparams{9};            % Tube length
+    L = fparams{9};             % Tube length
     Rc = fparams{10};
 
     xj = xj_0(1, 1);             
@@ -163,135 +163,70 @@ function inits = genInits(initsNum, x0_inc, R0_min, R0_max)
     end
     %Make the second column be random initial conditions for R
     inits(:,2) = (R0_max - R0_min).*rand(initsNum, 1) + R0_min;
-
-    %%%%%temp tests%%%%%
-    % inits(2:end,2) = 0.9999;
-    % inits(1, 2) = 0.8;
 end
 
-%%
-%%%% Parameters %%%%
 
-% Model Parameters
-a = 1.34;                                                                                % dimensioness film thickness parameter
-Bo = 1;                                                                                  % Bond number
-Rb = 0.8423;                                                                            % bifurcation critical R value
-Rc = 0.6691;                                                                             % Critical R which cause the plug
-omega = ( (a^2)/(64*Bo * (1-Rc) * (1-Rb) ) ) * (a^4 + 3 - 4*a^2 + 4*log(a));             % Wave growth rate
-p = 0.001;                                                                                 % Dampening term
+%% Parameter Settings and Initializations
+% ### Since each a values has differnt Rc, this currently only works for
+% multi runs with the same a value. ###
+
+% Model Parameters                                                                              % dimensioness film thickness parameter
+Bo = 1;                                                                                % Bond number
+Rb = 0.8423;                                                                           % bifurcation critical R value
+Rc = 0.6691;                                                                           % Critical R which cause the plug
+p = 0.001;                                                                             % Dampening term
 lambda1 = 0.1;                                                                         % parameter for distance function
-lambda2 = 0.5;                                                                          % parameter for disrtance function
+lambda2 = 0.5;                                                                         % parameter for disrtance function
 la = 12;
-L = 2*pi*la;                                                                                  % parameter for tube length
+L = 2*pi*la;                                                                           % parameter for tube length
 
-
-
-fparams = {a, Rb, omega, p, lambda1, lambda2, 0, @distfunc, L, Rc}; %The position 7 here is set to 0 just as a place holder for xi which would be replaced in @timeSeries()
+% Parameters for a values
+numtests=4;                                            % Number of times to run a simulation
+atests_min = 1.35;                                      % smallest a value to test
+atests_max = 1.35;                                      % largest a value to test
+atests_inc = 0.01;                                      % Increment of a value
+a_values = atests_min:atests_inc:atests_max;            % create an array of all the a values that will be tested
+atests = repelem(a_values, numtests);                   % repeat the a value by numtests times, so this new array could be used by parfor
+Oplugged = zeros(1, length(atests));                     % create an array of zeros the same size as atests, when there is a plug, the coursebounding position will be turned to 1, in the end, they are summed up to see how many of each a values are plugged
+timeToPlug = nan(1, length(atests));                    % create an array of NaN that marks the the time it take for each test to plug
+ORsol_all = cell(1, length(atests));                    % create a cell that will store all the soluions (Rsol)
+Otend_all = cell(1, length(atests));                    % store tend, the maximal time reached (plugging time) from each run
 
 % Initial Condition Parameters
 initsNum = round( L/(2 *sqrt(2)*pi));                            %Number of waves
 x0_inc = L/initsNum;                                             %Distance between waves
-R0_min = 0.9;                                                   %Min wave R
-R0_max = 0.999;                                                      %Max wave R
+R0_min = 0.9;                                                    %Min wave R
+R0_max = 0.999;                                                  %Max wave R
 
 % Integration Parameters
 h = 0.1;                   % dt step
 tmax = 4000;                % max integration time
 plugsens = 0.7;             % sensitivity of plug detection, how small can R get before simulation stop
-%%
-%%%% Run %%%%
-test_num = 5; % the number of times to run
-plug_log = zeros(test_num, 1); % a log of plug formation of each run, assign 0 if no plug, assign 1 if plugged
 
-X_all = cell(test_num, 1); % store time series of state variables from each run
-tend_all = cell(test_num, 1); % store tend, the maximal time reached (plugging time) from each run
 
-parfor i = 1:test_num
+
+%% Run
+parfor a_i = 1:length(atests)
+    % set a
+    a = atests(a_i);                                                                       % a value
+    omega = ( (a^2)/(64*Bo * (1-Rc) * (1-Rb) ) ) * (a^4 + 3 - 4*a^2 + 4*log(a));           % Wave growth rate
+    fparams = {a, Rb, omega, p, lambda1, lambda2, 0, @distfunc, L, Rc};                    %The position 7 here is set to 0 just as a place holder for xi which would be replaced in @timeSeries()
     % Generate initial conditions
     inits = genInits(initsNum, x0_inc, R0_min, R0_max);
     % Integrate the ODE
-    [X_all{i}, tend_all{i}, xp_vec, plugged] = timeSeries(@f, inits, h, tmax, plugsens, fparams);
-    if plugged
-        plug_log(i) = 1;
+    [ORsol_all{a_i}, Otend_all{a_i}, xp_vec, Oplugged] = timeSeries(@f, inits, h, tmax, plugsens, fparams);
+    % log plugs
+    if Oplugged
+        Oplugged(a_i) = 1;
     else
-        plug_log(i) = 0;
+        Oplugged(a_i) = 0;
     end
 end
 
-%% process plug_log
+% reshape Rsol_all so each row is each individual run, and each column is a different a value
+ORsol_all = reshape(ORsol_all, numtests, []); 
+
+% process data
 plug_rate = sum(plug_log)/length(plug_log) % calcuate percentate of runs that resulted in plug
 
 
-%%
-%%%% Plot %%%%
-
-% % % Plot the distribution of the distance function
-figure;
-plt_x = -10:0.01:10;
-plt_y = lambda1 * exp( -lambda2 * (plt_x - 0).^2 );
-plot(plt_x, plt_y);
-title('Distance Function Distribution');
-
-%% Plot the wave crest heights
-
-for i = 1:length(X_all)
-    X_vec = X_all{i};
-    tend = tend_all{i};
-    
-    figure;
-    hold on;
-    plt_time = tend;
-    for iii = 1:size(X_vec, 3)
-        %plot(plt_time(1500/h:end), X_vec(1500/h:end, 2, iii));
-        plot(plt_time(:), X_vec(:, 2, iii));
-    end
-    title('Time Series of R');
-    xlabel('Time');
-    ylabel('R');
-    hold off;
-
-end
-
-%% Plot phase space
-% figure;
-% plot3(X_vec(873/h:end, 2, 1), X_vec(873/h:end, 2, 2), X_vec(873/h:end, 2, 3));
-% hold on;
-% scatter3(X_vec(873/h, 2, 1), X_vec(873/h, 2, 2), X_vec(873/h, 2, 3));   % plot initial condition as a dot
-% title('Phase Space, Wave Crest Height VS Speed');
-% xlabel('Wave Speed');
-% ylabel('Wave Crest Height');
-% hold off;
-%% Plot the wave postions
-
-for i = 1:length(X_all)
-    X_vec = X_all{i};
-    tend = tend_all{i};
-
-    figure;
-    subplot(2, 1, 1)
-    hold on;
-    plt_time = tend;
-    for iii = 1:size(X_vec, 3)
-        plot(plt_time, mod(X_vec(:, 1, iii), L));
-    end
-    title('Wave Postion by Time');
-    xlabel('Time');
-    ylabel('Position x');
-    hold off;
-    
-    % Plot the wave crest heights
-    subplot(2, 1, 2);
-    hold on;
-    plt_time = tend;
-    for iii = 1:size(X_vec, 3)
-        %plot(plt_time(873/h:end), x_vec(873/h:end, 2, iii));
-        plot(plt_time(:), X_vec(:, 2, iii));
-    end
-    title('Time Series of R');
-    xlabel('Time');
-    ylabel('R');
-    hold off;
-    
-    toc;
-
-end
