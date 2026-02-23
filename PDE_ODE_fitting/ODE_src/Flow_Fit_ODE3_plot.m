@@ -101,7 +101,7 @@ for i = 1:numel(ODRstat_plugged)
         avg = ODRstat(:, 1);
         varience = ODRstat(:, 2);
         stdDev = ODRstat(:,3);
-           
+        
         % plot it
         figure;
         hold on;
@@ -120,7 +120,6 @@ for i = 1:numel(ODRstat_unplugged)
         avg = ODRstat(:, 1);
         varience = ODRstat(:, 2);
         stdDev = ODRstat(:,3);
-        
         
         % plot it
         figure;

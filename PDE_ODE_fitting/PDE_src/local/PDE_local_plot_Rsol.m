@@ -115,8 +115,9 @@ for i = 1:numel(Rstat_plugged)
     % If the cell is not empty, plot it.
     if ~isempty(Rstat) 
         avg = Rstat(:, 1);
-        stdDev = Rstat(:,2);
-        varience = Rstat(:, 3);
+        varience = Rstat(:, 2);
+        stdDev = Rstat(:,3);
+        
         
         % plot it
         figure;
@@ -134,8 +135,9 @@ for i = 1:numel(Rstat_unplugged)
     % If the cell is not empty, plot it.
     if ~isempty(Rstat) 
         avg = Rstat(:, 1);
-        stdDev = Rstat(:,2);
-        varience = Rstat(:, 3);
+        varience = Rstat(:, 2);
+        stdDev = Rstat(:,3);
+        
         
         % plot it
         figure;
