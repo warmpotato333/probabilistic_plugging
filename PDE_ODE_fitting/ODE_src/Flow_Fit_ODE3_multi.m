@@ -170,18 +170,18 @@ end
 % ### Since each a values has differnt Rc, this currently only works for
 % multi runs with the same a value. ###
 
-% Model Parameters                                                                              % dimensioness film thickness parameter
+% Model Parameters                                                                     % dimensioness film thickness parameter
 Bo = 1;                                                                                % Bond number
-Rb = 0.8423;                                                                           % bifurcation critical R value
+Rb = 0.82009;                                                                          % bifurcation critical R value
 Rc = 0.6691;                                                                           % Critical R which cause the plug
 p = 0.001;                                                                             % Dampening term
-lambda1 = 0.1;                                                                         % parameter for distance function
+lambda1 = 0.05;                                                                         % parameter for distance function
 lambda2 = 0.5;                                                                         % parameter for disrtance function
 la = 12;
 L = 2*pi*la;                                                                           % parameter for tube length
 
 % Parameters for a values
-numtests=4;                                             % Number of times to run a simulation
+numtests=8;                                            % Number of times to run a simulation
 atests_min = 1.35;                                      % smallest a value to test
 atests_max = 1.35;                                      % largest a value to test
 atests_inc = 0.01;                                      % Increment of a value
@@ -228,5 +228,3 @@ ODRsol_all = reshape(ODRsol_all, numtests, []);
 
 % process data
 plug_rate = sum(ODplugged)/length(ODplugged) % calcuate percentate of runs that resulted in plug
-
-
