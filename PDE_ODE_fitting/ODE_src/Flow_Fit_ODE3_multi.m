@@ -181,16 +181,16 @@ la = 12;
 L = 2*pi*la;                                                                           % parameter for tube length
 
 % Parameters for a values
-numtests=4;                                            % Number of times to run a simulation
+numtests=4;                                             % Number of times to run a simulation
 atests_min = 1.35;                                      % smallest a value to test
 atests_max = 1.35;                                      % largest a value to test
 atests_inc = 0.01;                                      % Increment of a value
 a_values = atests_min:atests_inc:atests_max;            % create an array of all the a values that will be tested
 atests = repelem(a_values, numtests);                   % repeat the a value by numtests times, so this new array could be used by parfor
-Oplugged = zeros(1, length(atests));                     % create an array of zeros the same size as atests, when there is a plug, the coursebounding position will be turned to 1, in the end, they are summed up to see how many of each a values are plugged
+ODplugged = zeros(1, length(atests));                   % create an array of zeros the same size as atests, when there is a plug, the coursebounding position will be turned to 1, in the end, they are summed up to see how many of each a values are plugged
 timeToPlug = nan(1, length(atests));                    % create an array of NaN that marks the the time it take for each test to plug
-ORsol_all = cell(1, length(atests));                    % create a cell that will store all the soluions (Rsol)
-Otend_all = cell(1, length(atests));                    % store tend, the maximal time reached (plugging time) from each run
+ODRsol_all = cell(1, length(atests));                   % create a cell that will store all the soluions (Rsol)
+ODtend_all = cell(1, length(atests));                   % store tend, the maximal time reached (plugging time) from each run
 
 % Initial Condition Parameters
 initsNum = round( L/(2 *sqrt(2)*pi));                            %Number of waves
@@ -214,19 +214,19 @@ parfor a_i = 1:length(atests)
     % Generate initial conditions
     inits = genInits(initsNum, x0_inc, R0_min, R0_max);
     % Integrate the ODE
-    [ORsol_all{a_i}, Otend_all{a_i}, xp_vec, Oplugged] = timeSeries(@f, inits, h, tmax, plugsens, fparams);
+    [ODRsol_all{a_i}, ODtend_all{a_i}, xp_vec, plugtrue] = timeSeries(@f, inits, h, tmax, plugsens, fparams);
     % log plugs
-    if Oplugged
-        Oplugged(a_i) = 1;
+    if plugtrue
+        ODplugged(a_i) = 1;
     else
-        Oplugged(a_i) = 0;
+        ODplugged(a_i) = 0;
     end
 end
 
 % reshape Rsol_all so each row is each individual run, and each column is a different a value
-ORsol_all = reshape(ORsol_all, numtests, []); 
+ODRsol_all = reshape(ODRsol_all, numtests, []); 
 
 % process data
-plug_rate = sum(plug_log)/length(plug_log) % calcuate percentate of runs that resulted in plug
+plug_rate = sum(ODplugged)/length(ODplugged) % calcuate percentate of runs that resulted in plug
 
 
