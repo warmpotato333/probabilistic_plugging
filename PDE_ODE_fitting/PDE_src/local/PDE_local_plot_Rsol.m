@@ -69,8 +69,12 @@ for col = 1:size(Rmin_all, 2)
 end
 
 
-%% Finding the varience and the mean of the Rmin
- 
+%% Find the mean, varience, and std_dev of the Rmin
+
+% Set the filter strength. All local mins with values above this will be
+% ignored in stat calculation
+filterAbv = 1;
+
 % Initiate a cell to store all the statistics
 Rstat_all = cell(size(Rmin_all));
 
@@ -78,14 +82,20 @@ Rstat_all = cell(size(Rmin_all));
 for i = 1:numel(Rmin_all)
     % Set Rmin to current cell of Rmin_all
     Rmin = Rmin_all{i};
+    % Filter out values greater then filterAbv by setting them to NaN
+    Rmin(Rmin > filterAbv) = NaN;
     % Find mean
     avg = mean(Rmin, 2, 'omitnan');
     % Find population vairence
     varience = var(Rmin, 1, 2, 'omitnan');
     % Find standard deviation
     stdDev = std(Rmin, 1, 2, 'omitnan');
+    % Find median
+    med = median(Rmin, 2, 'omitnan');
+    %Find difference between min and median
+    minDiff = abs(med - min(Rmin, [], 2, 'omitnan'));
     % Store statistic into cell array
-    Rstat_all{i} = [avg varience stdDev]; % the order by column is mean, varience, standard deviation
+    Rstat_all{i} = [avg varience stdDev minDiff med]; % the order by column is mean, varience, standard deviation
 end
 
 % ## Seperate out plugged and unplugged stats ##
@@ -130,7 +140,7 @@ for i = 1:numel(Rstat_plugged)
 end
 
 %% Plot the main, standard deviation for unplugged data
-for i = 1:numel(Rstat_unplugged)
+for i = 201:300 %numel(Rstat_unplugged)
     Rstat = Rstat_unplugged{i}
     % If the cell is not empty, plot it.
     if ~isempty(Rstat) 
