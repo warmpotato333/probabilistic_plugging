@@ -159,6 +159,81 @@ for i = 215:215 %numel(Rstat_unplugged)
 end
 
 
+%% Plot the main, standard deviation for plugged data
+for i = 1:numel(Rstat_plugged)
+    Rstat = Rstat_plugged{i};
+    Rmin = Rmin_all{i};
+
+    % If the cell is not empty, plot it.
+    if ~isempty(Rstat)
+        avg = Rstat(:, 1);
+        stdDev = Rstat(:,2);
+        varience = Rstat(:, 3);
+        minDiff = Rstat(:, 4);
+        
+        % ###This version stacks it, i dont know if this is the best way to look at it yet###
+
+        figure; 
+        % Plot the time series
+        subplot(1, 2, 1);
+        Rtime = 1:size(Rmin, 1);                    % Make time stamps, rn it's just counting from 1, can be changed later
+        Rtime = repmat(Rtime.', 1, size(Rmin, 2));  % Repeat the time stamp many times so it can be used to plot in scatter
+        color = randn(numel(Rmin(:)), 3);           % Random color for each point, *optional*
+        scatter(Rtime(:), Rmin(:), 5, color, 'filled');
+
+        % Plot the statistics
+        subplot(1, 2, 2);
+        hold on;
+        plot(avg);
+        plot(avg+stdDev);
+        plot(avg-stdDev);
+        hold off;
+        xlim([60 120])
+    end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+%% Plot the main, standard deviation for unplugged data with time series
+for i = 201:300 %numel(Rstat_unplugged)
+    Rstat = Rstat_unplugged{i};
+    Rmin = Rmin_all{i};
+    % If the cell is not empty, plot it.
+    if ~isempty(Rstat) 
+        avg = Rstat(:, 1);
+        stdDev = Rstat(:,2);
+        varience = Rstat(:, 3);
+        minDiff = Rstat(:, 4);
+
+        % ###This version stacks it, i dont know if this is the best way to look at it yet###
+
+        figure; 
+        % Plot the time series
+        subplot(1, 2, 1);
+        Rtime = 1:size(Rmin, 1);                    % Make time stamps, rn it's just counting from 1, can be changed later
+        Rtime = repmat(Rtime.', 1, size(Rmin, 2));  % Repeat the time stamp many times so it can be used to plot in scatter
+        color = randn(numel(Rmin(:)), 3);           % Random color for each point, *optional*
+        scatter(Rtime(:), Rmin(:), 5, color, 'filled');
+        
+        % plot it
+        subplot(1, 2, 2);
+        hold on;
+        plot(avg);
+        plot(avg+stdDev);
+        plot(avg-stdDev);
+        hold off;
+        xlim([200 400])
+    end
+end
 
 
 
