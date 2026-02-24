@@ -120,8 +120,8 @@ for i = unplugged_idx
 end
 
 %% Plot the main, standard deviation for plugged data
-for i = 1:numel(Rstat_plugged)
-    Rstat = Rstat_plugged{i}
+for i = 217:230 %numel(Rstat_plugged)
+    Rstat = Rstat_plugged{i};
     % If the cell is not empty, plot it.
     if ~isempty(Rstat) 
         avg = Rstat(:, 1);
@@ -140,14 +140,13 @@ for i = 1:numel(Rstat_plugged)
 end
 
 %% Plot the main, standard deviation for unplugged data
-for i = 201:300 %numel(Rstat_unplugged)
-    Rstat = Rstat_unplugged{i}
+for i = 215:215 %numel(Rstat_unplugged)
+    Rstat = Rstat_unplugged{i};
     % If the cell is not empty, plot it.
     if ~isempty(Rstat) 
         avg = Rstat(:, 1);
         varience = Rstat(:, 2);
         stdDev = Rstat(:,3);
-        
         
         % plot it
         figure;

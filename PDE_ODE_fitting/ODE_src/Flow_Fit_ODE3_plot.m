@@ -131,6 +131,32 @@ for i = 1:numel(ODRstat_unplugged)
     end
 end
 
+
+
+
+%% Temp test
+for i = 1:1 %numel(ODRstat_unplugged)
+    ODRstat = ODRstat_unplugged{i};
+    % If the cell is not empty, plot it.
+    if ~isempty(ODRstat) 
+        avg = ODRstat(:, 1);
+        varience = ODRstat(:, 2);
+        stdDev = ODRstat(:,3);
+        
+        % plot it
+        %figure;
+        hold on;
+        plot(avg);
+        plot(avg+stdDev);
+        plot(avg-stdDev);
+        hold off;
+    end
+end
+
+
+
+
+
 %% Plot the distribution of the distance function
 % figure;
 % plt_x = -10:0.01:10;
