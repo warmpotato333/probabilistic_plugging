@@ -195,14 +195,6 @@ end
 
 
 
-
-
-
-
-
-
-
-
 %% Plot the main, standard deviation for unplugged data with time series
 for i = 201:300 %numel(Rstat_unplugged)
     Rstat = Rstat_unplugged{i};

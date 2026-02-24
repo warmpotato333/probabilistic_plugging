@@ -227,4 +227,4 @@ end
 ODRsol_all = reshape(ODRsol_all, numtests, []); 
 
 % process data
-plug_rate = sum(ODplugged)/length(ODplugged) % calcuate percentate of runs that resulted in plug
+ODplug_rate = sum(ODplugged)/length(ODplugged) % calcuate percentate of runs that resulted in plug
