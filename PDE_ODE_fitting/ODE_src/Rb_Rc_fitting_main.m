@@ -16,6 +16,8 @@ if jj<length(avec)-1
 else
     Rmintouse=NaN;
 end
+
+
 % Make figure showing min of R
 % If avaltouse>a_c (approx 1.377), then Rmintouse will be NaN
 figure;

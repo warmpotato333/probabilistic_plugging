@@ -1,6 +1,6 @@
 % Aya Yu
 % Created Feb 23 2026
-% This plot data from Flow_Fit_ODE3_multi
+% This plot data from Flow_Fit_ODE3_multi.m
 
 %%%% Process Data %%%%
 %% Finding the varience and the mean of the Rmin
@@ -158,11 +158,11 @@ end
 
 
 %% Plot the distribution of the distance function
-% figure;
-% plt_x = -10:0.01:10;
-% plt_y = lambda1 * exp( -lambda2 * (plt_x - 0).^2 );
-% plot(plt_x, plt_y);
-% title('Distance Function Distribution');
+figure;
+plt_x = -10:0.01:10;
+plt_y = lambda1 * exp( -lambda2 * (plt_x - 0).^2 );
+plot(plt_x, plt_y);
+title('Distance Function Distribution');
 
 %% Plot phase space
 % figure;

@@ -3,6 +3,8 @@
 % This simulates the ODE system proposed to descrive the PDE flow dynamic in a tube
 % This version is based on the previous "_main" but fixed some bugs
 
+% requires Rb_Rc_fitting_func.m
+
 %%%% functions %%%%
 tic;
 % the RHS of ODE
@@ -156,7 +158,7 @@ end
 %Generate Initial Conditions
 function inits = genInits(initsNum, x0_inc, R0_min, R0_max)
     inits = zeros(initsNum, 2);     % Make a zero array to stand in for initial conditions
-
+    rng('shuffle');
     % Make the first column be wave location spaced by x0_inc for x
     for iii = 2:initsNum
         inits(iii, 1) = inits(iii-1, 1) + x0_inc + 2*randn();
@@ -172,25 +174,24 @@ end
 
 % Model Parameters                                                                     % dimensioness film thickness parameter
 Bo = 1;                                                                                % Bond number
-Rb = 0.82009;                                                                          % bifurcation critical R value
 Rc = 0.6691;                                                                           % Critical R which cause the plug
 p = 0.001;                                                                             % Dampening term
 lambda1 = 0.05;                                                                         % parameter for distance function
-lambda2 = 0.5;                                                                         % parameter for disrtance function
+lambda2 = 0.39;                                                                         % parameter for disrtance function
 la = 12;
 L = 2*pi*la;                                                                           % parameter for tube length
 
 % Parameters for a values
 numtests=8;                                            % Number of times to run a simulation
-atests_min = 1.35;                                      % smallest a value to test
-atests_max = 1.35;                                      % largest a value to test
+atests_min = 1.34;                                      % smallest a value to test
+atests_max = 1.34;                                      % largest a value to test
 atests_inc = 0.01;                                      % Increment of a value
-a_values = atests_min:atests_inc:atests_max;            % create an array of all the a values that will be tested
-atests = repelem(a_values, numtests);                   % repeat the a value by numtests times, so this new array could be used by parfor
-ODplugged = zeros(1, length(atests));                   % create an array of zeros the same size as atests, when there is a plug, the coursebounding position will be turned to 1, in the end, they are summed up to see how many of each a values are plugged
-timeToPlug = nan(1, length(atests));                    % create an array of NaN that marks the the time it take for each test to plug
-ODRsol_all = cell(1, length(atests));                   % create a cell that will store all the soluions (Rsol)
-ODtend_all = cell(1, length(atests));                   % store tend, the maximal time reached (plugging time) from each run
+ODa_values = atests_min:atests_inc:atests_max;            % create an array of all the a values that will be tested
+ODatests = repelem(ODa_values, numtests);                   % repeat the a value by numtests times, so this new array could be used by parfor
+ODplugged = zeros(1, length(ODatests));                   % create an array of zeros the same size as atests, when there is a plug, the coursebounding position will be turned to 1, in the end, they are summed up to see how many of each a values are plugged
+timeToPlug = nan(1, length(ODatests));                    % create an array of NaN that marks the the time it take for each test to plug
+ODRsol_all = cell(1, length(ODatests));                   % create a cell that will store all the soluions (Rsol)
+ODtend_all = cell(1, length(ODatests));                   % store tend, the maximal time reached (plugging time) from each run
 
 % Initial Condition Parameters
 initsNum = round( L/(2 *sqrt(2)*pi));                            %Number of waves
@@ -206,11 +207,12 @@ plugsens = 0.7;             % sensitivity of plug detection, how small can R get
 
 
 %% Run
-parfor a_i = 1:length(atests)
+parfor a_i = 1:length(ODatests)
     % set a
-    a = atests(a_i);                                                                       % a value
+    a = ODatests(a_i);                                                                     % a value
+    Rb = Rb_Rc_fitting_func(a);                                                            % Finds Rb for the given a value w/ fitting function
     omega = ( (a^2)/(64*Bo * (1-Rc) * (1-Rb) ) ) * (a^4 + 3 - 4*a^2 + 4*log(a));           % Wave growth rate
-    fparams = {a, Rb, omega, p, lambda1, lambda2, 0, @distfunc, L, Rc};                    %The position 7 here is set to 0 just as a place holder for xi which would be replaced in @timeSeries()
+    fparams = {a, Rb, omega, p, lambda1, lambda2, 0, @distfunc, L, Rc};                    % The position 7 here is set to 0 just as a place holder for xi which would be replaced in @timeSeries()
     % Generate initial conditions
     inits = genInits(initsNum, x0_inc, R0_min, R0_max);
     % Integrate the ODE
