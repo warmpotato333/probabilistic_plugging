@@ -1,6 +1,6 @@
 % Aya Yu
 % Created Aug 25 2025
-% This simulates the ODE system proposed to descrive the PDE flow dynamic in a tube
+% This simulates the ODE system proposed by Dr. Reed Ogrosky to descrive the PDE flow dynamic in a tube
 % This version is based on the previous "_main" but fixed some bugs
 
 % requires Rb_Rc_fitting_func.m
@@ -158,7 +158,6 @@ end
 %Generate Initial Conditions
 function inits = genInits(initsNum, x0_inc, R0_min, R0_max)
     inits = zeros(initsNum, 2);     % Make a zero array to stand in for initial conditions
-    rng('shuffle');
     % Make the first column be wave location spaced by x0_inc for x
     for iii = 2:initsNum
         inits(iii, 1) = inits(iii-1, 1) + x0_inc + 2*randn();
@@ -182,7 +181,7 @@ la = 12;
 L = 2*pi*la;                                                                           % parameter for tube length
 
 % Parameters for a values
-numtests=4;                                            % Number of times to run a simulation
+numtests=10;                                            % Number of times to run a simulation
 atests_min = 1.34;                                      % smallest a value to test
 atests_max = 1.36;                                      % largest a value to test
 atests_inc = 0.01;                                      % Increment of a value
@@ -216,6 +215,7 @@ parfor a_i = 1:length(ODatests)
     % this should prevent any possilble duplication
     randomStream = RandStream("mrg32k3a", "Seed", randSeed);
     randomStream.Substream = a_i; 
+    RandStream.setGlobalStream(randomStream);
 
     % set a
     a = ODatests(a_i);                                                                     % a value
@@ -240,3 +240,19 @@ ODRsol_all = reshape(ODRsol_all, numtests, []);
 
 % set numplugs = reshaped ODplugged so each column is from a different a value
 numplugs = sum(reshape(ODplugged, numtests, []));
+
+
+
+%% **For debug, find all the duplicate pairs in Rsol_all**
+n = numel(ODRsol_all);
+pairs = []
+
+for i = 1:n-1
+    for j = i+1:n
+
+        if isequal(ODRsol_all{i}, ODRsol_all{j});   
+            [r, c] = ind2sub(size(ODRsol_all), [i j]);
+            pairs(end+1,:) = [r(1) c(1) r(2) c(2)];
+        end
+    end
+end
