@@ -32,7 +32,7 @@ Ltilde=0;                   %Slip Length for Slip BC Model this is Lambda tilde
 
 % Generate a random seed for the randomStream that would be used in parfor
 rng("shuffle");
-randSeed = randi(1e9); % randSeed saved for debug
+randSeed = randi(1e9); % save randSeed for debug
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 parfor ww=1:length(atests)

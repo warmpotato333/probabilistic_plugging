@@ -182,9 +182,9 @@ la = 12;
 L = 2*pi*la;                                                                           % parameter for tube length
 
 % Parameters for a values
-numtests=8;                                            % Number of times to run a simulation
+numtests=4;                                            % Number of times to run a simulation
 atests_min = 1.34;                                      % smallest a value to test
-atests_max = 1.34;                                      % largest a value to test
+atests_max = 1.36;                                      % largest a value to test
 atests_inc = 0.01;                                      % Increment of a value
 ODa_values = atests_min:atests_inc:atests_max;            % create an array of all the a values that will be tested
 ODatests = repelem(ODa_values, numtests);                   % repeat the a value by numtests times, so this new array could be used by parfor
@@ -207,7 +207,16 @@ plugsens = 0.7;             % sensitivity of plug detection, how small can R get
 
 
 %% Run
+
+% Generate a random seed for the randomStream that would be used in parfor
+rng("shuffle");
+randSeed = randi(1e9); % save randSeed for debug
 parfor a_i = 1:length(ODatests)
+    % generate the random stream, and assign a substream for this worker
+    % this should prevent any possilble duplication
+    randomStream = RandStream("mrg32k3a", "Seed", randSeed);
+    randomStream.Substream = a_i; 
+
     % set a
     a = ODatests(a_i);                                                                     % a value
     Rb = Rb_Rc_fitting_func(a);                                                            % Finds Rb for the given a value w/ fitting function
@@ -225,8 +234,9 @@ parfor a_i = 1:length(ODatests)
     end
 end
 
+% Process Data
 % reshape Rsol_all so each row is each individual run, and each column is a different a value
 ODRsol_all = reshape(ODRsol_all, numtests, []); 
 
-% process data
-ODplug_rate = sum(ODplugged)/length(ODplugged) % calcuate percentate of runs that resulted in plug
+% set numplugs = reshaped ODplugged so each column is from a different a value
+numplugs = sum(reshape(ODplugged, numtests, []));

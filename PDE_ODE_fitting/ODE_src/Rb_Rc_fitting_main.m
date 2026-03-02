@@ -1,7 +1,7 @@
 % Reed Ogrosky
 
 % Set a value to find R_b for.  
-avaltouse=1.35;
+avaltouse=1.34;
 % Load data.  This data is for Bo=1, that's all we'll need for now.
 load('avec_Bo1_TWFamily.mat');
 load('Rminvec_Bo1_TWFamily.mat');
