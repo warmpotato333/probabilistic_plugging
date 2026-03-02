@@ -239,5 +239,29 @@ end
 ODRsol_all = reshape(ODRsol_all, numtests, []); 
 
 % set numplugs = reshaped ODplugged so each column is from a different a value
-numplugs = sum(reshape(ODplugged, numtests, []));
+ODnumplugs = sum(reshape(ODplugged, numtests, []));
 
+%%
+% Save solution
+
+%get current time
+save_time = datestr(now,'yyyymmdd_HHMMSS');
+
+% set data folder name, and save file name
+% !!!Remember to change the names accordance to mission number!!!
+dataFolderName = 'ODE_test_Data';
+fname = sprintf('ODE_aSweep_la12_Bo1_%s.mat', save_time);
+
+% Find the data folder that the data is to be saved in
+scriptFolder = pwd;                                     %get the full path that the script is in
+parentFolder = fileparts(scriptFolder);                 %go up one folder to find the location of the parentfolder
+saveFolder = fullfile(parentFolder, dataFolderName);    %set the save folder to be the data folder
+if ~exist(saveFolder, 'dir')                            %make a data folder if there is not already one
+    mkdir(saveFolder);
+end
+fnamedotmat= fullfile(saveFolder, [fname,'.mat']);  
+
+%choose what variables to save
+save(fnamedotmat, 'tend','plugged','numplugs','timeToPlug','a_values','atests','numtests','la','Bo', ...
+    'Rsol_all', 'num_plots',"atests_inc", "atests_max", ...
+    'atests_min', 'Ltilde', 'randSeed', '-v7.3');   
