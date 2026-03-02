@@ -241,18 +241,3 @@ ODRsol_all = reshape(ODRsol_all, numtests, []);
 % set numplugs = reshaped ODplugged so each column is from a different a value
 numplugs = sum(reshape(ODplugged, numtests, []));
 
-
-
-%% **For debug, find all the duplicate pairs in Rsol_all**
-n = numel(ODRsol_all);
-pairs = []
-
-for i = 1:n-1
-    for j = i+1:n
-
-        if isequal(ODRsol_all{i}, ODRsol_all{j});   
-            [r, c] = ind2sub(size(ODRsol_all), [i j]);
-            pairs(end+1,:) = [r(1) c(1) r(2) c(2)];
-        end
-    end
-end
