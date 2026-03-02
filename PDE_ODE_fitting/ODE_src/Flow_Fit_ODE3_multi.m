@@ -181,10 +181,10 @@ la = 12;
 L = 2*pi*la;                                                                           % parameter for tube length
 
 % Parameters for a values
-numtests=10;                                            % Number of times to run a simulation
-atests_min = 1.34;                                      % smallest a value to test
+numtests=100;                                            % Number of times to run a simulation
+atests_min = 1.33;                                      % smallest a value to test
 atests_max = 1.36;                                      % largest a value to test
-atests_inc = 0.01;                                      % Increment of a value
+atests_inc = 0.005;                                      % Increment of a value
 ODa_values = atests_min:atests_inc:atests_max;            % create an array of all the a values that will be tested
 ODatests = repelem(ODa_values, numtests);                   % repeat the a value by numtests times, so this new array could be used by parfor
 ODplugged = zeros(1, length(ODatests));                   % create an array of zeros the same size as atests, when there is a plug, the coursebounding position will be turned to 1, in the end, they are summed up to see how many of each a values are plugged
@@ -250,7 +250,7 @@ save_time = datestr(now,'yyyymmdd_HHMMSS');
 % set data folder name, and save file name
 % !!!Remember to change the names accordance to mission number!!!
 dataFolderName = 'ODE_test_Data';
-fname = sprintf('ODE_aSweep_la12_Bo1_%s.mat', save_time);
+fname = sprintf('ODE_aSweep133-136_la12_Bo1_%s.mat', save_time);
 
 % Find the data folder that the data is to be saved in
 scriptFolder = pwd;                                     %get the full path that the script is in
