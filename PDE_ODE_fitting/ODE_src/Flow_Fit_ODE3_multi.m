@@ -98,6 +98,7 @@ function x_1 = rk4(f, x_0, h, fparams)
     x_1 = x_0 + (k1 + 2*k2 + 2*k3 + k4)/6;
 end
 
+
 % Integrator, calculate the time series solution from initial conditions
 function [x_vec, tend_vec, xp_vec, plugged] = timeSeries(f, inits, h, tmax, plugsens, fparams)     %inits are the initial conditions of state variables in the form of an array [x1 R1; x2 R2; ...]
     plugged = false;        % Initialize plugged state
@@ -176,14 +177,14 @@ Bo = 1;                                                                         
 Rc = 0.6691;                                                                           % Critical R which cause the plug
 p = 0.001;                                                                             % Dampening term
 lambda1 = 0.05;                                                                         % parameter for distance function
-lambda2 = 0.39;                                                                         % parameter for disrtance function
+lambda2 = 0.35;                                                                         % parameter for disrtance function
 la = 12;
 L = 2*pi*la;                                                                           % parameter for tube length
 
 % Parameters for a values
 numtests=100;                                            % Number of times to run a simulation
-atests_min = 1.33;                                      % smallest a value to test
-atests_max = 1.36;                                      % largest a value to test
+atests_min = 1.325;                                      % smallest a value to test
+atests_max = 1.365;                                      % largest a value to test
 atests_inc = 0.005;                                      % Increment of a value
 ODa_values = atests_min:atests_inc:atests_max;            % create an array of all the a values that will be tested
 ODatests = repelem(ODa_values, numtests);                   % repeat the a value by numtests times, so this new array could be used by parfor
@@ -250,7 +251,10 @@ save_time = datestr(now,'yyyymmdd_HHMMSS');
 % set data folder name, and save file name
 % !!!Remember to change the names accordance to mission number!!!
 dataFolderName = 'ODE_test_Data';
-fname = sprintf('ODE_aSweep133-136_la12_Bo1_%s.mat', save_time);
+fname = sprintf('ODE_aSweep1325-1365_la12_Bo1_lambda2-035_%s.mat', save_time);
+%fname = sprintf('ODE_TEST_la12_Bo1_lambda0385_%s.mat', save_time);
+
+
 
 % Find the data folder that the data is to be saved in
 scriptFolder = pwd;                                     %get the full path that the script is in

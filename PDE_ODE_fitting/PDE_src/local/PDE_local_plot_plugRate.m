@@ -4,12 +4,12 @@
 
 
 %% plot the rate of plugging acorss 'a' with error bar
-f = figure;
+%f = figure;
 hold on;
 [plugRate, plugConfd] = binofit(numplugs, numtests);   %binofit outputs the plug rate and the confidence interval
 plugError = plugRate.' - plugConfd(:,1);               %these two lines make the confidence interval relative to the center
 plugError(:, 2) = plugConfd(:,2) - plugRate.';
-h1 = errorbar(a_values, plugRate, plugError(:, 1), plugError(:, 2), 'o', 'LineWidth', 0.5, 'Color', '#C7AD16');    %plot with error bar
+h1 = errorbar(a_values, plugRate, plugError(:, 1), plugError(:, 2), 'd', 'LineWidth', 0.5, 'Color', 'red');    %plot with error bar
 xlabel('$a$', 'Interpreter', 'latex');
 ylabel('Plug formation rate', 'Interpreter','latex');
 %title('The Probability of Plug Formation Across different $a$ Values', ['la = ' num2str(la), ', Bo = ', num2str(Bo)], 'Interpreter', 'latex');
@@ -22,10 +22,11 @@ xlim([min(a_values), max(a_values)]);
 title_name = ['Plug_Rate_la-', num2str(la), '_Bo-', num2str(Bo)];    
 f.Name = title_name;
 
+hold off;
 % %%
 % legend([h1, h2, h3, h4], {'Bo = 0.25', 'Bo = 0.5', 'Bo = 1', 'Bo = 2'}, 'FontSize', 30);
 
-%% plot histogram of tipping tipping for a given slice of 'a'
+%% plot histogram of tipping time for a given slice of 'a'
 % ## NEED FIX ##
 figure;
 hist_aind = 2;         %index of 'a' slice
