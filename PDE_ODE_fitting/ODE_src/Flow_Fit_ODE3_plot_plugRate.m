@@ -3,9 +3,11 @@
 % This plot plug rate and related from data from Flow_Fit_ODE3_multi.m
 
 %% plot the rate of plugging acorss 'a' with error bar
+ODnumtest = 100; % only if ODRsol_all is not saved
+
 f = figure;
 hold on;
-[ODplugRate, ODplugConfd] = binofit(ODnumplugs, size(ODRsol_all, 1 ));   %binofit outputs the plug rate and the confidence interval
+[ODplugRate, ODplugConfd] = binofit(ODnumplugs, ODnumtest);   %binofit outputs the plug rate and the confidence interval
 
 ODplugError = ODplugRate.' - ODplugConfd(:,1);               %these two lines make the confidence interval relative to the center
 ODplugError(:, 2) = ODplugConfd(:,2) - ODplugRate.';

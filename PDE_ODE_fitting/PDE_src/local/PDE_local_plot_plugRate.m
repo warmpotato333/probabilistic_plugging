@@ -9,7 +9,7 @@ hold on;
 [plugRate, plugConfd] = binofit(numplugs, numtests);   %binofit outputs the plug rate and the confidence interval
 plugError = plugRate.' - plugConfd(:,1);               %these two lines make the confidence interval relative to the center
 plugError(:, 2) = plugConfd(:,2) - plugRate.';
-h1 = errorbar(a_values, plugRate, plugError(:, 1), plugError(:, 2), 'd', 'LineWidth', 0.5, 'Color', 'red');    %plot with error bar
+h1 = errorbar(a_values, plugRate, plugError(:, 1), plugError(:, 2), 'd', 'LineWidth', 0.5, 'Color', 'k');    %plot with error bar
 xlabel('$a$', 'Interpreter', 'latex');
 ylabel('Plug formation rate', 'Interpreter','latex');
 %title('The Probability of Plug Formation Across different $a$ Values', ['la = ' num2str(la), ', Bo = ', num2str(Bo)], 'Interpreter', 'latex');
