@@ -24,7 +24,7 @@ We ran thousands of simulations of the PDE model to explore the parameter space 
 
 ![image of liquid falling down a glass tube](media/plug-rate-2.png)
 
-We see for a short tube length like $la = 4$, because not a lot of waves can fit inside the tube, there are almost no wave to wave interactions happening. This means plugging can only happen due to the growth from the wave itself. So, we see waves either forms or not form based on if $a$ is greater than the critical film thickness $a^*$ (here it's around $1.36$). For longer tube lengths, the transient region where probabilistic plugging happens becomes wider. 
+We see for a short tube length like $la = 4 \pi $, because not a lot of waves can fit inside the tube, there are almost no wave to wave interactions happening. This means plugging can only happen due to the growth from the wave itself. So, we see waves either forms or not form based on if $a$ is greater than the critical film thickness $a^*$ (here it's around $1.36$). For longer tube lengths, the transient region where probabilistic plugging happens becomes wider. 
 
 
 
