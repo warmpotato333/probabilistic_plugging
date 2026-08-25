@@ -20,7 +20,7 @@ We explored this transient region of parameter to attempt to understand the dyna
 
 ## Result - PDE
 
-We ran thousands of simulations of the PDE model to explore the parameter space in $a$ and $la$. For each tube length $la$, we varies film thickness $a$. We run the simulation hundreds of times under each $(la, a)$ parameter pair, each time with a slightly different initial condition.  We record the rate of plugging at for each pair of $(la, a)$. This generates the plot for $la = 4$ below. 
+We ran thousands of simulations of the PDE model to explore the parameter space in $a$ and $la$. For each tube length $la$, we varies film thickness $a$. We run the simulation hundreds of times under each $(la, a)$ parameter pair, each time with a slightly different initial condition.  We record the rate of plugging at each pair of $(la, a)$. This generates the plot for $la = 4$ below. 
 
 ![image of liquid falling down a glass tube](media/plug-rate-1.png)
 
