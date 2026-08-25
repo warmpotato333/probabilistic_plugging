@@ -26,5 +26,8 @@ We ran thousands of simulations of the PDE model to explore the parameter space 
 
 We see for a short tube length like $la = 4 \pi $, because not a lot of waves can fit inside the tube, there are almost no wave to wave interactions happening. This means plugging can only happen due to the growth from the wave itself. So, we see waves either forms or not form based on if $a$ is greater than the critical film thickness $a^*$ (here it's around $1.36$). For longer tube lengths, the transient region where probabilistic plugging happens becomes wider. 
 
+## Result - ODE
+To better understand the mechanism that is most essential to this probabilistic plugging dynamics, and to create a computationally cheaper model, we created an ODE model based on the PDE model.  
+
 
 
