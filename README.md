@@ -24,5 +24,5 @@ We ran thousands of simulations of the PDE model to explore the parameter space 
 
 ![image of liquid falling down a glass tube](media/plug-rate-1.png)
 
-We see in this plot that for a short tube length like $la = 4$, because not a lot of waves can fit inside the tube, there are almost no wave to wave interactions happening. This means plugging can only happen due to the growth from the wave itself. So, we see waves either forms or not form based on if $a$ is greater than the critical film thickness $a^* $ (here it's around $1.36$).
+We see in this plot that for a short tube length like $la = 4$, because not a lot of waves can fit inside the tube, there are almost no wave to wave interactions happening. This means plugging can only happen due to the growth from the wave itself. So, we see waves either forms or not form based on if $a$ is greater than the critical film thickness $ a^* $ (here it's around $1.36$).
 
