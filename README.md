@@ -1,5 +1,7 @@
 # probabilistic_plugging
 
+![image of liquid falling down a glass tube](media/liquid-film-photo.png)
+
 ## Overview 
 This project is done with the help of my advisor Reed Ogrosky from Virginia Commonwealth University. It is used for parallel simulation of fluid flow under gravity and study of its dynamics. The code in this repository simulate two models. 
 
