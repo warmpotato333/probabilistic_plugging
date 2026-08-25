@@ -13,3 +13,7 @@ The second portion of the codes are dedicated in simulating the ODE model.  To f
 When liquid falls down a thin liquid tube under gravity, it forms a thin liquid film due to the surface tension. As it fall, the surface of the film forms waves. A wave grows by itself, but also by interacting with other nearby waves, bigger waves swallowing smaller waves. If a wave grow too large, it forms a plug, the liquid stop flowing. This is an issue in engineering, in health like in the lungs of a patient with thick mucus. We want to know what parameters cause plugging. 
 
 One important parameter is film thickness value $a$. There are many studies that showed that there exist a critical parameter $a^* $. For any liquid film with a thickness $a > a^* $, a plug will always form regardless of initial conditions. However, for some ranges of $a < a^* $, a plug could still form some of the times due to the complex interaction between waves. This is where a larger wave can swallow a smaller wave and form a plug. Plugs formed in this range of $a$ is what we coined "probabilistic plugging" because with the same simulation parameters, just slight change in initial condition could lead to plugs or no plugs. We explored this transient region of parameter to attempt to understand the dynamics in this region. 
+
+## Result - PDE
+
+We ran thousands of simulations of the PDE model to explore the parameter space in $a$. 
