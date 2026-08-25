@@ -1,1 +1,3 @@
-Codes for running the PDE model are in the HPC folder. 
+- Codes for running the PDE model are in the HPC folder.
+- PDE_HPC_run.m is the code for running the simulation
+- LW_PRE2012_RHS_S123_Jul2025.m contains the function that performs integration for the PDE model
