@@ -16,4 +16,7 @@ One important parameter is film thickness value $a$. There are many studies that
 
 ## Result - PDE
 
-We ran thousands of simulations of the PDE model to explore the parameter space in $a$. 
+We ran thousands of simulations of the PDE model to explore the parameter space in $a$. At each film thickness $a$, we ran the model 100 times, each time with a slightly different initial condition. We record the rate of plugging at that film thickness $a$. We repeated this for each $a$ value. This generates the plot below. 
+
+![image of liquid falling down a glass tube](media/plug-rate-1.png)
+
