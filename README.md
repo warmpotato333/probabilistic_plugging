@@ -1,7 +1,5 @@
 # probabilistic_plugging
 
-![image of liquid falling down a glass tube](media/liquid-film-photo.png)
-
 ## Overview 
 This project is done with the help of my advisor Reed Ogrosky from Virginia Commonwealth University. It is used for parallel simulation of fluid flow under gravity and study of its dynamics. The code in this repository simulate two models. 
 
@@ -10,3 +8,4 @@ The first portion of the repository is dedicated to simulating the Partial Diffe
 The second portion of the codes are dedicated in simulating the ODE model.  To further dissect this dynamics, and for a faster model, we developed an Ordinary Differential Equation (ODE) model based on the PDE model. This model captures the probabilistic tipping dynamics, and we showed that their behaviors match. 
 
 ## Motivation - Probabilistic Plugging 
+![image of liquid falling down a glass tube](media/liquid-film-photo.png)
