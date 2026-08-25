@@ -22,7 +22,9 @@ We explored this transient region of parameter to attempt to understand the dyna
 
 We ran thousands of simulations of the PDE model to explore the parameter space in $a$ and $la$. For each tube length $la$, we varies film thickness $a$. We run the simulation hundreds of times under each $(la, a)$ parameter pair, each time with a slightly different initial condition.  We record the rate of plugging at each pair of $(la, a)$. This generates the plot for $la = 4$ below. 
 
-![image of liquid falling down a glass tube](media/plug-rate-1.png)
+![image of liquid falling down a glass tube](media/plug-rate-2.png)
 
-We see in this plot that for a short tube length like $la = 4$, because not a lot of waves can fit inside the tube, there are almost no wave to wave interactions happening. This means plugging can only happen due to the growth from the wave itself. So, we see waves either forms or not form based on if $a$ is greater than the critical film thickness $a^*$ (here it's around $1.36$).
+We see for a short tube length like $la = 4$, because not a lot of waves can fit inside the tube, there are almost no wave to wave interactions happening. This means plugging can only happen due to the growth from the wave itself. So, we see waves either forms or not form based on if $a$ is greater than the critical film thickness $a^*$ (here it's around $1.36$). For longer tube lengths, the transient region where probabilistic plugging happens becomes wider. 
+
+
 
