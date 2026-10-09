@@ -8,7 +8,7 @@
 %%%% functions %%%%
 tic;
 % the RHS of ODE
-function Rj_1 = f(xj_0, fparams) %Rj_0 is an array of 2 initial conditions, it containes speed and crest height
+function Rj_1 = f(xj_0, fparams) %Rj_0 is an array of 2 initial conditions, it containes position and crest height
     % unpack the parameters
     a = fparams{1};
     Rb = fparams{2};
@@ -177,17 +177,17 @@ Bo = 1;                                                                         
 Rc = 0.6691;                                                                           % Critical R which cause the plug
 p = 0.001;                                                                             % Dampening term
 lambda1 = 0.05;                                                                         % parameter for distance function
-lambda2 = 0.35;                                                                         % parameter for disrtance function
+lambda2 = 0.39;                                                                         % parameter for disrtance function
 la = 12;
-L = 2*pi*la;                                                                           % parameter for tube length
+L = 2*pi*la;                                              % parameter for tube length
 
 % Parameters for a values
-numtests=100;                                            % Number of times to run a simulation
-atests_min = 1.325;                                      % smallest a value to test
-atests_max = 1.365;                                      % largest a value to test
-atests_inc = 0.005;                                      % Increment of a value
+numtests=5;                                               % Number of times to run a simulation
+atests_min = 1.35;                                        % smallest a value to test
+atests_max = 1.35;                                        % largest a value to test
+atests_inc = 0.005;                                       % Increment of a value
 ODa_values = atests_min:atests_inc:atests_max;            % create an array of all the a values that will be tested
-ODatests = repelem(ODa_values, numtests);                   % repeat the a value by numtests times, so this new array could be used by parfor
+ODatests = repelem(ODa_values, numtests);                 % repeat the a value by numtests times, so this new array could be used by parfor
 ODplugged = zeros(1, length(ODatests));                   % create an array of zeros the same size as atests, when there is a plug, the coursebounding position will be turned to 1, in the end, they are summed up to see how many of each a values are plugged
 timeToPlug = nan(1, length(ODatests));                    % create an array of NaN that marks the the time it take for each test to plug
 ODRsol_all = cell(1, length(ODatests));                   % create a cell that will store all the soluions (Rsol)
@@ -200,7 +200,7 @@ R0_min = 0.9;                                                    %Min wave R
 R0_max = 0.999;                                                  %Max wave R
 
 % Integration Parameters
-h = 0.1;                   % dt step
+h = 0.1;                    % dt step
 tmax = 4000;                % max integration time
 plugsens = 0.7;             % sensitivity of plug detection, how small can R get before simulation stop
 

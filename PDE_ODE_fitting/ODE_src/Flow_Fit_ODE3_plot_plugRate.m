@@ -20,7 +20,7 @@ ylabel('Plug formation rate', 'Interpreter','latex');
 f.Theme = 'light';          % light theme for plotting
 set(findall(f, '-property', 'FontSize'), 'FontSize', 32);
 xlim([min(ODa_values)-0.001, max(ODa_values)+0.001]);
-xlim([1.3 1.365]);
+xlim([1.3 1.37]);
 
 % Set the figure name to the title
 title_name = ['Plug_Rate_la-', num2str(la), '_Bo-', num2str(Bo)];    
