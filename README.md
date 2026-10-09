@@ -1,1 +1,35 @@
 # probabilistic_plugging
+
+## Overview 
+This project is done with the help of my advisor Reed Ogrosky from Virginia Commonwealth University. It is used for parallel simulation of fluid flow under gravity and study of its dynamics. The code in this repository simulate two models. 
+
+The first portion of the repository is dedicated to simulating the Partial Differential Equation (PDE) Model. PDE model is a Navier-Stokes derived model proposed in Camassa 2014. In particular, fluid under this configuration simulated in this model, features a "probabilistic tipping" dynamics in one region of its parameter space. We explores this transient region of parameter space thoroughly to understand its behavior. The PDE model is already simplified, but still quiet computationally intensive. Hence, parallel processing is implemented with MATLAB's Parallel Computing Tool Box. 
+
+The second portion of the codes are dedicated in simulating the ODE model.  To further dissect this dynamics, and for a faster model, we developed an Ordinary Differential Equation (ODE) model based on the PDE model. This model captures the probabilistic tipping dynamics, and we showed that their behaviors match. 
+
+## Research Summery - Probabilistic Plugging 
+![image of liquid falling down a glass tube](media/liquid-film-photo.png)
+
+When liquid falls down a thin liquid tube under gravity, it forms a thin liquid film due to the surface tension. As it fall, the surface of the film forms waves. A wave grows by itself, but also by interacting with other nearby waves, bigger waves swallowing smaller waves. If a wave grow too large, it forms a plug, the liquid stop flowing. This is an issue in engineering, in health like in the lungs of a patient with thick mucus. We want to know what parameters cause plugging. 
+
+One important parameter is film thickness value $a$. There are many studies that showed that there exist a critical parameter $a^* $. For any liquid film with a thickness $a > a^* $, a plug will always form regardless of initial conditions. However, for some ranges of $a < a^* $, a plug could still form some of the times due to the complex interaction between waves. This is where a larger wave can swallow a smaller wave and form a plug. Plugs formed in this range of $a$ is what we coined "probabilistic plugging" because with the same simulation parameters, just slight change in initial condition could lead to plugs or no plugs. 
+
+Important parameter is periodic tube length $la$. This represents how long is the tube that the liquid is traveling in. A shorter tube can fit less waves in it. A longer tube can fit more waves. It affects the model dynamics significantly as a longer tube lengths containing more waves will allows for more complicated interaction between waves. This increased complexity increase the size of that transient region where probabilistic plugging happens. 
+
+We explored this transient region of parameter to attempt to understand the dynamics.
+
+## Result - PDE
+
+We ran thousands of simulations of the PDE model to explore the parameter space in $a$ and $la$. For each tube length $la$, we varies film thickness $a$. We run the simulation hundreds of times under each $(la, a)$ parameter pair, each time with a slightly different initial condition.  We record the rate of plugging at each pair of $(la, a)$. This generates the plot for $la = 4$ below. 
+
+![image of liquid falling down a glass tube](media/plug-rate-2.png)
+
+We see for a short tube length like $la = 4 \pi $, because not a lot of waves can fit inside the tube, there are almost no wave to wave interactions happening. This means plugging can only happen due to the growth from the wave itself. So, we see waves either forms or not form based on if $a$ is greater than the critical film thickness $a^*$ (here it's around $1.36$). For longer tube lengths, the transient region where probabilistic plugging happens becomes wider. 
+
+## Result - ODE
+To better understand the mechanism that is most essential to this probabilistic plugging dynamics, and to create a computationally cheaper model, we created an ODE model based on the PDE model. 
+
+TBC...
+
+
+
