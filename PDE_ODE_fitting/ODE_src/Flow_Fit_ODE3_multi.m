@@ -182,7 +182,7 @@ la = 12;
 L = 2*pi*la;                                              % parameter for tube length
 
 % Parameters for a values
-numtests=5;                                               % Number of times to run a simulation
+numtests=10;                                               % Number of times to run a simulation
 atests_min = 1.35;                                        % smallest a value to test
 atests_max = 1.35;                                        % largest a value to test
 atests_inc = 0.005;                                       % Increment of a value

@@ -61,6 +61,7 @@ for i = 1:length(ODRsol_all)
         for ii = 1:size(ODRsol, 3)
             %plot(plt_time(1500/h:end), X_vec(1500/h:end, 2, iii));
             plot(plt_time(:), ODRsol(:, 2, ii));
+            
         end
         title('Time Series of plugged data');
         xlabel('Time');
@@ -77,16 +78,18 @@ for i = 1:length(ODRsol_all)
     plt_time = ODtend;
     % only plot if ODplugged(i) is 0
     if ODplugged(i) == 0
-        figure;
+        figure(Theme="light", Position =[100, 100, 800, 600]);
         hold on;
         % iterate through each page of ODRol. This is because state of each
         % wave R_i and x_i are stored in a different page (we are only plotting the R_i in this)
         for ii = 1:size(ODRsol, 3)
             %plot(plt_time(1500/h:end), X_vec(1500/h:end, 2, iii));
-            plot(plt_time(:), ODRsol(:, 2, ii));
+            plot(plt_time(:), ODRsol(:, 2, ii), '.', 'Color', 'k','MarkerSize',2);
+            yline(Rc, 'k--')
+            yline(0.82009, 'k--')
         end
-        title('Time Series of not plugged data');
-        xlabel('Time');
+        %title('Time Series of not plugged data');
+        xlabel('t');
         ylabel('R');
         hold off;
     end
