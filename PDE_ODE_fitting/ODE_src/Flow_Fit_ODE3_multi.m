@@ -182,7 +182,7 @@ la = 12;
 L = 2*pi*la;                                              % parameter for tube length
 
 % Parameters for a values
-numtests=10;                                               % Number of times to run a simulation
+numtests=30;                                               % Number of times to run a simulation
 atests_min = 1.35;                                        % smallest a value to test
 atests_max = 1.35;                                        % largest a value to test
 atests_inc = 0.005;                                       % Increment of a value
@@ -201,7 +201,7 @@ R0_max = 0.999;                                                  %Max wave R
 
 % Integration Parameters
 h = 0.1;                    % dt step
-tmax = 4000;                % max integration time
+tmax = 8000;                % max integration time
 plugsens = 0.7;             % sensitivity of plug detection, how small can R get before simulation stop
 
 

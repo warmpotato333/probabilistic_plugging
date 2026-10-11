@@ -56,11 +56,11 @@ for i = 1:length(ODRsol_all)
     plt_time = ODtend;
     % only plot if ODplugged(i) is 1
     if ODplugged(i) == 1
-        figure;
+        figure(Theme='light');
         hold on;
         for ii = 1:size(ODRsol, 3)
             %plot(plt_time(1500/h:end), X_vec(1500/h:end, 2, iii));
-            plot(plt_time(:), ODRsol(:, 2, ii));
+            plot(plt_time(:), ODRsol(:, 2, ii),'.', 'Color', 'k','MarkerSize',2);
             
         end
         title('Time Series of plugged data');
@@ -78,7 +78,7 @@ for i = 1:length(ODRsol_all)
     plt_time = ODtend;
     % only plot if ODplugged(i) is 0
     if ODplugged(i) == 0
-        figure(Theme="light", Position =[100, 100, 800, 600]);
+        figure(Theme="light");
         hold on;
         % iterate through each page of ODRol. This is because state of each
         % wave R_i and x_i are stored in a different page (we are only plotting the R_i in this)
@@ -131,6 +131,120 @@ for i = 1:numel(ODRstat_unplugged)
         plot(avg+stdDev);
         plot(avg-stdDev);
         hold off;
+    end
+end
+
+%% Plot the varience of the plugged data
+for i = 1:numel(ODRstat_plugged)
+    ODRstat = ODRstat_plugged{i};
+    ODtend = ODtend_all{i};
+    plt_time = ODtend;
+    % If the cell is not empty, plot it.
+    if ~isempty(ODRstat) 
+        avg = ODRstat(:, 1);
+        varience = ODRstat(:, 2);
+        stdDev = ODRstat(:,3);
+        
+        % plot it
+        figure;
+        hold on;
+        plot(plt_time(:), varience);
+        ylim([0, 1.5*10^(-3)]);
+        hold off;
+    end
+end
+
+%% Plot the varience unplugged data
+for i = 1:numel(ODRstat_unplugged)
+    ODRstat = ODRstat_unplugged{i};
+    ODtend = ODtend_all{i};
+    plt_time = ODtend;
+    % If the cell is not empty, plot it.
+    if ~isempty(ODRstat) 
+
+        varience = ODRstat(:, 2);
+        
+        % plot it
+        figure;
+        hold on;
+        plot(plt_time(:), varience);
+        ylim([0, 1.5*10^(-3)]);
+        hold off;
+    end
+end
+
+
+%% Plot plugged varience and time series together
+
+for i = 1:length(ODRsol_all)
+    ODRstat = ODRstat_plugged{i};
+    ODRsol = ODRsol_all{i};
+    ODtend = ODtend_all{i};
+    plt_time = ODtend;
+    % only plot if ODplugged(i) is 1
+    if ODplugged(i) == 1
+        figure(theme = 'light', Name="Plugged");
+        subplot(2, 1, 1)
+        hold on;
+        for ii = 1:size(ODRsol, 3)
+            %plot(plt_time(1500/h:end), X_vec(1500/h:end, 2, iii));
+            plot(plt_time(:), ODRsol(:, 2, ii), '.', Color='k', MarkerSize=2);
+        end
+        yline(0.82009, 'k--')
+        ylim([0.7, 1])
+        title('Time Series of plugged data');
+        xlabel('Time');
+        ylabel('R');
+        hold off;
+    end
+    % plot the varience
+    if ~isempty(ODRstat)
+        varience = ODRstat(:, 2);
+        
+        % plot it
+        subplot(2, 1, 2)
+        hold on;
+        plot(plt_time(:), varience, '.', Color='k', MarkerSize=2);
+        ylim([0, 3*10^(-3)]);
+        hold off;
+        
+    end
+end
+
+%% Plot unplugged varience and time series together
+
+for i = 1:length(ODRsol_all)
+    ODRstat = ODRstat_unplugged{i};
+    ODRsol = ODRsol_all{i};
+    ODtend = ODtend_all{i};
+    plt_time = ODtend;
+    % only plot if ODplugged(i) is 1
+    if ODplugged(i) == 0
+        figure(theme = 'light', Name='Unplugged');
+        subplot(2, 1, 1)
+        hold on;
+        for ii = 1:size(ODRsol, 3)
+            %plot(plt_time(1500/h:end), X_vec(1500/h:end, 2, iii));
+            plot(plt_time(:), ODRsol(:, 2, ii), '.', Color='k', MarkerSize=2);
+        end
+        yline(0.82009, 'k--')
+        ylim([0.7, 1])
+        title('Time Series of unplugged data');
+        xlabel('Time');
+        ylabel('R');
+        hold off;
+    end
+    % plot the varience
+    if ~isempty(ODRstat)
+        varience = ODRstat(:, 2);
+        
+        % plot it
+        subplot(2, 1, 2)
+        hold on;
+        plot(plt_time(:), varience, '.', Color='k', MarkerSize=2);
+        ylim([0, 3*10^(-3)]);
+        hold off;
+        
     end
 end
 

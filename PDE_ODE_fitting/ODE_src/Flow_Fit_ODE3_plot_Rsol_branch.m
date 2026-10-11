@@ -56,7 +56,7 @@ for i = 1:length(ODRsol_all)
     plt_time = ODtend;
     % only plot if ODplugged(i) is 1
     if ODplugged(i) == 1
-        figure(Theme="light", Position =[100, 100, 800, 600]);
+        figure(Theme="light", Position =[100, , 800, 600]);
         hold on;
         for ii = 1:size(ODRsol, 3)
             %plot(plt_time(1500/h:end), X_vec(1500/h:end, 2, iii));
