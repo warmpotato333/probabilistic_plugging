@@ -27,3 +27,21 @@ title_name = ['Plug_Rate_la-', num2str(la), '_Bo-', num2str(Bo)];
 f.Name = title_name;
 
 hold off;
+
+%% Plot histogram of time it took to form a plug
+
+% each cell of ODtend_all don't actually store the last t value, but stores
+% the entire time vector. So we stract the last element of each cell, and
+% that is the end time where a plug is formed
+ODtend_vec = nan(1, length(ODtend_all));
+for i = 1:length(ODtend_all)
+    % only get the simulations that formed a plug
+    if ODplugged(i) == 1 
+        ODtend_vec(i) = ODtend_all{i}(end);
+    end
+end 
+% Plot histogram of plug formation times
+figure(Theme='light', Position= [100 100 900 800]);
+histogram(ODtend_vec(~isnan(ODtend_vec)), 60);
+xlabel('Plug formation time', FontSize=25, FontName = "Times New Romans");
+ylabel('Number of sims', FontSize=25, FontName = "Times New Romans");

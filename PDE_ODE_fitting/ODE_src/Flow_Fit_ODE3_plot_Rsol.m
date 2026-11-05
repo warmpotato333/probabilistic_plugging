@@ -257,6 +257,10 @@ plt_y = lambda1 * exp( -lambda2 * (plt_x - 0).^2 );
 plot(plt_x, plt_y);
 title('Distance Function Distribution');
 
+
+
+
+
 %% Plot phase space
 % figure;
 % plot3(X_vec(873/h:end, 2, 1), X_vec(873/h:end, 2, 2), X_vec(873/h:end, 2, 3));
