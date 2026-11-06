@@ -133,6 +133,7 @@ function [x_vec, tend_vec, xp_vec, plugged] = timeSeries(f, inits, h, tmax, plug
             xi(ii, :) = [];                                            %take out the state of itself
             fparams{7} = xi;
             
+            % the try and catch prevent error if R gets below 0 during rk4
             try
                 % update the tms with rk4 
                 %disp(xj_0);
@@ -195,8 +196,8 @@ L = 2*pi*la;                                              % parameter for tube l
 
 % Parameters for a values
 numtests=30;                                              % Number of times to run a simulation
-atests_min = 1.35;                                        % smallest a value to test
-atests_max = 1.35;                                        % largest a value to test
+atests_min = 1.33;                                        % smallest a value to test
+atests_max = 1.36;                                        % largest a value to test
 atests_inc = 0.005;                                       % Increment of a value
 ODa_values = atests_min:atests_inc:atests_max;            % create an array of all the a values that will be tested
 ODatests = repelem(ODa_values, numtests);                 % repeat the a value by numtests times, so this new array could be used by parfor
