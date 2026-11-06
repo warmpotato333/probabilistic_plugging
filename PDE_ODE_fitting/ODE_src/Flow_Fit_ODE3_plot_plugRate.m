@@ -41,7 +41,9 @@ for i = 1:length(ODtend_all)
     end
 end 
 % Plot histogram of plug formation times
-figure(Theme='light', Position= [100 100 900 800]);
+figure(Theme='light', Position= [100 100 1080 700]);
 histogram(ODtend_vec(~isnan(ODtend_vec)), 60);
-xlabel('Plug formation time', FontSize=25, FontName = "Times New Romans");
-ylabel('Number of sims', FontSize=25, FontName = "Times New Romans");
+xlabel('Plug formation time', FontSize=35, FontName = "Times New Romans");
+ylabel('Number of sims', FontSize=35, FontName = "Times New Romans");
+ax = gca;
+ax.FontSize = 30;

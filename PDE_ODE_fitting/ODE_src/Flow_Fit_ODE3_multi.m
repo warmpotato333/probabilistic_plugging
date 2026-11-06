@@ -133,11 +133,23 @@ function [x_vec, tend_vec, xp_vec, plugged] = timeSeries(f, inits, h, tmax, plug
             xi(ii, :) = [];                                            %take out the state of itself
             fparams{7} = xi;
             
-            % update the tms with rk4 
-            %disp(xj_0);
-            x_vec(ti, :, ii) = rk4(f, xj_0, h, fparams);
-            % store x'
-            xp_vec(ti, :, ii) = f(xj_0, fparams);
+            try
+                % update the tms with rk4 
+                %disp(xj_0);
+                x_vec(ti, :, ii) = rk4(f, xj_0, h, fparams);
+                % store dx/dt
+                xp_vec(ti, :, ii) = f(xj_0, fparams);
+                
+            catch ME
+                disp(['Simulation stopped at t = ', num2str(t_vec(ti))]);
+                disp(['Reason: ', ME.message]);
+                
+                plugged = true;
+                break
+            end
+
+
+
             % Check if the wave is close to plugging, if a plug is about to form, break
             if x_vec(ti, 2, ii) <= plugsens             %This number controls how sensitive is plug detection
                 disp(['plugged formed at t = ', num2str(t_vec(ti))]);
@@ -176,13 +188,13 @@ end
 Bo = 1;                                                                                % Bond number
 Rc = 0.6691;                                                                           % Critical R which cause the plug
 p = 0.001;                                                                             % Dampening term
-lambda1 = 0.05;                                                                         % parameter for distance function
-lambda2 = 0.39;                                                                         % parameter for disrtance function
+lambda1 = 0.05;                                                                        % parameter for distance function
+lambda2 = 0.39;                                                                        % parameter for disrtance function
 la = 12;
 L = 2*pi*la;                                              % parameter for tube length
 
 % Parameters for a values
-numtests=30;                                               % Number of times to run a simulation
+numtests=30;                                              % Number of times to run a simulation
 atests_min = 1.35;                                        % smallest a value to test
 atests_max = 1.35;                                        % largest a value to test
 atests_inc = 0.005;                                       % Increment of a value
@@ -202,7 +214,7 @@ R0_max = 0.999;                                                  %Max wave R
 % Integration Parameters
 h = 0.1;                    % dt step
 tmax = 8000;                % max integration time
-plugsens = 0.7;             % sensitivity of plug detection, how small can R get before simulation stop
+plugsens = 0.5;             % sensitivity of plug detection, how small can R get before simulation stop
 
 
 
