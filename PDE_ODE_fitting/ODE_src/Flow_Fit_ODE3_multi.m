@@ -264,7 +264,7 @@ save_time = datestr(now,'yyyymmdd_HHMMSS');
 % set data folder name, and save file name
 % !!!Remember to change the names accordance to mission number!!!
 dataFolderName = 'ODE_test_Data';
-fname = sprintf('ODE_aSweep1325-1365_la12_Bo1_lambda2-035_%s.mat', save_time);
+fname = sprintf('ODE_plugsens0.5%s.mat', save_time);
 %fname = sprintf('ODE_TEST_la12_Bo1_lambda0385_%s.mat', save_time);
 
 

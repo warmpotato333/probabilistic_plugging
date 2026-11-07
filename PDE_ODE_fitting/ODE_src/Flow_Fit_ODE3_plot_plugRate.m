@@ -26,7 +26,7 @@ xlim([1.3 1.37]);
 title_name = ['Plug_Rate_la-', num2str(la), '_Bo-', num2str(Bo)];    
 f.Name = title_name;
 
-%hold off;
+hold off;
 
 %% Plot histogram of time it took to form a plug
 

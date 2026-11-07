@@ -87,6 +87,7 @@ for i = 1:length(ODRsol_all)
             plot(plt_time(:), ODRsol(:, 2, ii), '.', 'Color', 'k','MarkerSize',2);
             yline(Rc, 'k--')
             yline(0.82009, 'k--')
+            yline(0.7, 'b--')
         end
         %title('Time Series of not plugged data');
         xlabel('t');

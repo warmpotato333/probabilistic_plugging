@@ -4,7 +4,7 @@
 
 
 %% plot the rate of plugging acorss 'a' with error bar
-%f = figure;
+f = figure;
 hold on;
 [plugRate, plugConfd] = binofit(numplugs, numtests);   %binofit outputs the plug rate and the confidence interval
 plugError = plugRate.' - plugConfd(:,1);               %these two lines make the confidence interval relative to the center
