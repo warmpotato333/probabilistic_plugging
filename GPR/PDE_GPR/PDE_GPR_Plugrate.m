@@ -4,16 +4,15 @@
 % regression
 
 %Prepare the data
-[plugRate, plugConfd] = binofit(numplugs, numtests);   %binofit outputs the plug rate and the confidence interval
-% convert to column vector for gpr
-obs_x = a_values';    
-obs_y = plugRate';
+PR_T0 = readtable('~/Documents/GitHub/probabilistic_plugging/GPR/PDE_GPR/PlugRate_Data.csv');
+obs_x = [PR_T0.a(446:end)];
+obs_y = [PR_T0.plugRate(446:end)];
 % fit gpr
-gprMdl1 = fitrgp(obs_x, obs_y);
+gprMdl0 = fitrgp(obs_x, obs_y);
 
 %% compute predicted response and 95% prediction interval
 pred_x = linspace(1.31,1.37, 50)';
-[pred_y, ~, pred_yint] = predict(gprMdl1, pred_x);
+[pred_y, ~, pred_yint] = predict(gprMdl0, pred_x);
 
 %% plot the prediction
 figure(Theme='light');
@@ -25,6 +24,6 @@ legend({'Plug rate observations', 'GPR predictions', '95% prediction interval'},
 xlabel('a');
 ylabel('Plug rate');
 xlim([1.31 1.37]);
-hold off;
+%hold off;
 
 
