@@ -5,32 +5,43 @@
 % It takes two regressors
 
 % Prepare the data
-PR_T0 = readtable('~/Documents/GitHub/probabilistic_plugging/GPR/PDE_GPR/PlugRate_Data.csv');
+PR_T0 = readtable('~/Documents/GitHub/probabilistic_plugging/Statistics/PDE_GPR/PlugRate_Data.csv');
 PR_T1 = PR_T0(1:5:end, :);  % remove some rows to prevent overfitting
 obs_x = [PR_T1.a, PR_T1.la];
 obs_y = [PR_T1.plugRate];
 
 
-%% fit gpr
+%% Fit gpr
 gprMdl2 = fitrgp(obs_x, obs_y, KernelFunction='ardsquaredexponential', ...
     Standardize=true, ...
     KernelParameters = []);
 
 
-%% compute and plot prediction along a, fixing la
+%% Affix la, compute and plot prediction along a, 
 plt_la = 12;
 pred_x1 = [linspace(1.31, 1.37, 50)', repelem(plt_la, 50)'];
 [pred_y1, ~, pred_y1int] = predict(gprMdl2, pred_x1);
 figure(Theme='light');
-plot(pred_x1(:, 1), pred_y1, 'red--', LineWidth=1);
+hold on
+% plot
+plot(pred_x1(:, 1), pred_y1, '-', LineWidth=1, ...
+    Color=[0.8500, 0.3250, 0.0980]);                                                         %plot prediction
+scatter( PR_T1.a(PR_T1.la == plt_la), ( PR_T1.plugRate( PR_T1.la == plt_la ) ), ...
+    MarkerEdgeColor=[0.6350, 0.0780, 0.1840]);                                               % plot training observations
+patch([pred_x1(:, 1);flipud(pred_x1(:, 1))],[pred_y1int(:,1);flipud(pred_y1int(:,2))],'k','FaceAlpha',0.1, ...
+    FaceColor=[0.9290, 0.6940, 0.1250], EdgeColor = [0.9290, 0.6940, 0.1250]);               % plot 95% prediction interval
+% styling
+legend({ 'GPR predictions', 'Plug rate observations','95% prediction interval'}, Location='best');
 xlabel("a", FontSize=20);
 ylabel('Plug rate', FontSize=20);
+xlim([1.31 1.37]);
 t = title(['la = ', num2str(plt_la)], fontsize = 20);
 t.HorizontalAlignment = 'left'
 t.Units = 'normalized';
 t.Position(1) = 0;
+hold off
 
-%% compute and plot prediction along la, fixing a
+%% Affix a, compute and plot prediction along la
 plt_a = 1.35;
 pred_x2 = [repelem(plt_a, 50)', linspace(6,12,50)'];
 [pred_y2, ~, pred_y2int] = predict(gprMdl2, pred_x2);
